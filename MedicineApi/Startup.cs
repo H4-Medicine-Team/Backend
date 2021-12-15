@@ -1,3 +1,4 @@
+using MedicineApi.Managers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +27,8 @@ namespace MedicineApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Managers
+            services.AddScoped<IMedicineCardManager, FmkMedicineCardManagerMock>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -43,10 +46,6 @@ namespace MedicineApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MedicineApi v1"));
             }
-            app.UseCors(x => x
-           .AllowAnyOrigin()
-           .AllowAnyMethod()
-           .AllowAnyHeader());
 
             app.UseHttpsRedirection();
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MedicineApi.Models
+﻿namespace MedicineApi.Models
 {
     public enum Days
     {
@@ -11,6 +6,8 @@ namespace MedicineApi.Models
         Tuesday,
         Wednesday,
         Thursday,
-        Friday
+        Friday,
+        Saturday,
+        Sunday
     }
 }
