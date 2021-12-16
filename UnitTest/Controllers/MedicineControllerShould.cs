@@ -33,26 +33,13 @@ namespace UnitTest.Controllers
             Assert.ThrowsAny<ArgumentNullException>(() => new MedicineController(manager, null));
         }
 
-        [Fact]
-        public async void ThrowBadRequestException_WhenCprNumberIsNull_GetMedicineCardAsync()
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        public async void ThrowBadRequestException_WhenCprNumberIsNotValid_GetMedicineCardAsync(string cpr)
         {
             // Arrange
-            string cpr = null;
-            MedicineController controller = GetFakeController();
-            ActionResult<MedicineCard> result;
-
-            // Act
-            result = await controller.GetMedicineCardAsync(cpr);
-
-            // Act && Assert
-            Assert.NotNull(result.Result as BadRequestObjectResult);
-        }
-
-        [Fact]
-        public async void ThrowBadRequestException_WhenCprNumberIsEmpty_GetMedicineCardAsync()
-        {
-            // Arrange
-            string cpr = "";
             MedicineController controller = GetFakeController();
             ActionResult<MedicineCard> result;
 
