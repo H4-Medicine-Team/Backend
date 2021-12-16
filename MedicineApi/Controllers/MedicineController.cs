@@ -19,8 +19,8 @@ namespace MedicineApi.Controllers
 
         public MedicineController(IMedicineCardManager medicineCardManager, ILogger<MedicineController> logger)
         {
-            _medicineCardManager = medicineCardManager ?? throw new ArgumentException($"Medicine Manager was not injected {typeof(MedicineController)}");
-            _logger = logger ?? throw new ArgumentException($"Logger was not injected {typeof(MedicineController)}");
+            _medicineCardManager = medicineCardManager ?? throw new ArgumentNullException($"Medicine Manager was not injected {typeof(MedicineController)}");
+            _logger = logger ?? throw new ArgumentNullException($"Logger was not injected {typeof(MedicineController)}");
         }
 
         /// <summary>
@@ -32,8 +32,8 @@ namespace MedicineApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<MedicineCard> GetMedicineCardAsync(string cprNumber)
         {
-            if (!ModelState.IsValid)
-                throw new ArgumentNullException("Cpr number was not given");
+            if (string.IsNullOrEmpty(cprNumber))
+                throw new ArgumentException("Cpr number was not given");
 
             try
             {
