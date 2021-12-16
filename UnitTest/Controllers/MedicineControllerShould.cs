@@ -59,12 +59,13 @@ namespace UnitTest.Controllers
             await Assert.ThrowsAnyAsync<ArgumentException>(func);
         }
 
-        [Fact]
-        public async void GetResult_WhenCprNumberIsNotEmpty_GetMedicineCardAsync()
+        [Theory]
+        [InlineData("1111111111")]
+        [InlineData("111111-1111")]
+        public async void GetResult_WhenCprNumberIsNotEmpty_GetMedicineCardAsync(string cpr)
         {
             // Arrange
             MedicineController controller = GetFakeController();
-            string cpr = "1111";
             MedicineCard card = null;
 
             // Act

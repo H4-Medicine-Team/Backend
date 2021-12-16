@@ -7,9 +7,22 @@ namespace MedicineApi.Managers
 {
     public class FmkMedicineCardManagerMock : IMedicineCardManager
     {
+        public FmkMedicineCardManagerMock()
+        {
+        }
+
         /// <inheritdoc />
         public Task<MedicineCard> GetMedicineCardAsync(string cprNumber)
         {
+            if (string.IsNullOrEmpty(cprNumber))
+                throw new ArgumentException("Cpr number was null or empty");
+
+            if (cprNumber.Contains('-'))
+                cprNumber.Replace("-", "");
+
+            if (cprNumber.Length < 10)
+                throw new ArgumentOutOfRangeException("Cpr number is not valid");
+
             Person person = new Person("Gurli", "Gris", "Grisen", "1111111111");
             Address address = new Address(2630, "Taastrup", "Kingosvej 1", "Denmark");
             Patient patient = new Patient(person, address);
