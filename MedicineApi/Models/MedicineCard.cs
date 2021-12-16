@@ -1,14 +1,27 @@
-﻿namespace MedicineApi.Models
+﻿using System.Collections.Generic;
+
+namespace MedicineApi.Models
 {
     public class MedicineCard
     {
-        public Patient patient { get; private set; }
-        public DrugMedication DrugMedication { get; private set; }
+        /// <summary>
+        /// Refers to the patient for this medicinecard.
+        /// </summary>
+        public Patient Patient { get; private set; }
+
+        /// <summary>
+        /// Refers to the list of medication the patient has.
+        /// </summary>
+        public List<DrugMedication> DrugMedication { get; private set; }
+
+        /// <summary>
+        /// Refers to the organisation which have a relation to the patient.
+        /// </summary>
         public Organisation Organisation { get; private set; }
 
-        public MedicineCard(Patient patient, DrugMedication drugMedication, Organisation organisation)
+        public MedicineCard(Patient patient, List<DrugMedication> drugMedication, Organisation organisation)
         {
-            this.patient = patient;
+            Patient = patient;
             DrugMedication = drugMedication;
             Organisation = organisation;
         }

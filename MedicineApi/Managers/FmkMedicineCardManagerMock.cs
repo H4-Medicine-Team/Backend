@@ -1,16 +1,13 @@
 ﻿using MedicineApi.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MedicineApi.Managers
 {
     public class FmkMedicineCardManagerMock : IMedicineCardManager
     {
-        /// <summary>
-        /// Returns a mock object of the medicinecard
-        /// </summary>
-        /// <param name="cprNumber">Is not used in the mock object</param>
-        /// <returns>A mock object of medicinecard</returns>
+        /// <inheritdoc />
         public Task<MedicineCard> GetMedicineCardAsync(string cprNumber)
         {
             Person person = new Person("Gurli", "Gris", "Grisen", "1111111111");
@@ -32,11 +29,11 @@ namespace MedicineApi.Managers
 
             Drug drug = new Drug("Minulet", "1232321231");
             BeginEndDate bed = new BeginEndDate(DateTime.Now, DateTime.Now.AddDays(2));
-            DrugMedication medication = new DrugMedication(dosage, drug, bed, "123123123123");
+            DrugMedication medication = new DrugMedication(new List<Dosage>() { dosage }, drug, bed, "123123123123");
 
             Organisation organisation = new Organisation("Apotek", "4352525252", "Apotek@mail.dk", "123451231");
 
-            MedicineCard card = new MedicineCard(patient, medication, organisation);
+            MedicineCard card = new MedicineCard(patient, new List<DrugMedication>() { medication }, organisation);
 
             return Task.Run(() => { return card; });
         }
