@@ -30,19 +30,25 @@ namespace MedicineApi.Controllers
         /// <returns>The medicinecard specified by the cpr number</returns>
         [HttpGet("medicinecard")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<MedicineCard> GetMedicineCardAsync(string cprNumber)
+        public async Task<ActionResult<MedicineCard>> GetMedicineCardAsync(string cprNumber)
         {
             if (string.IsNullOrEmpty(cprNumber))
-                throw new ArgumentException("Cpr number was not given");
+                return BadRequest("Cpr number was not correct");
 
             try
             {
                 return await _medicineCardManager.GetMedicineCardAsync(cprNumber);
+                
+            }
+            catch (ArgumentException e)
+            {
+                _logger.LogError("Bad request for GetMedicineCard " + e.Message);
+                return BadRequest(e.Message);
             }
             catch (Exception e)
             {
                 _logger.LogError("Could not perform request GetMedicineCard " + e.Message);
-                throw;
+                return Problem(e.Message, e.Source, 500, e.InnerException.HResult.ToString());
             }
         }
 

@@ -22,9 +22,9 @@ namespace MedicineApi.Models
         /// <summary>
         /// The days of the week where the interval is activated.
         /// </summary>
-        public Days[] Days { get; private set; }
+        public DayOfWeek[] Days { get; private set; }
 
-        public Interval(DateTime start, DateTime end, DateTime consumptionTime, Days[] days)
+        public Interval(DateTime start, DateTime end, DateTime consumptionTime, DayOfWeek[] days)
         {
             Start = start;
             End = end;

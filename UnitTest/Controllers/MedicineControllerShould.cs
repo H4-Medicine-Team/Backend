@@ -1,6 +1,8 @@
 ﻿using MedicineApi.Controllers;
 using MedicineApi.Managers;
 using MedicineApi.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
@@ -32,31 +34,33 @@ namespace UnitTest.Controllers
         }
 
         [Fact]
-        public async void ThrowArgumentException_WhenCprNumberIsNull_GetMedicineCardAsync()
+        public async void ThrowBadRequestException_WhenCprNumberIsNull_GetMedicineCardAsync()
         {
             // Arrange
             string cpr = null;
             MedicineController controller = GetFakeController();
+            ActionResult<MedicineCard> result;
 
             // Act
-            Func<Task> func = async () => await controller.GetMedicineCardAsync(cpr);
+            result = await controller.GetMedicineCardAsync(cpr);
 
-            // Assert
-            await Assert.ThrowsAnyAsync<ArgumentException>(func);
+            // Act && Assert
+            Assert.NotNull(result.Result as BadRequestObjectResult);
         }
 
         [Fact]
-        public async void ThrowArgumentException_WhenCprNumberIsEmpty_GetMedicineCardAsync()
+        public async void ThrowBadRequestException_WhenCprNumberIsEmpty_GetMedicineCardAsync()
         {
             // Arrange
             string cpr = "";
             MedicineController controller = GetFakeController();
+            ActionResult<MedicineCard> result;
 
             // Act
-            Func<Task> func = async () => await controller.GetMedicineCardAsync(cpr);
+            result = await controller.GetMedicineCardAsync(cpr);
 
-            // Assert
-            await Assert.ThrowsAnyAsync<ArgumentException>(func);
+            // Act && Assert
+            Assert.NotNull(result.Result as BadRequestObjectResult);
         }
 
         [Theory]
@@ -69,7 +73,7 @@ namespace UnitTest.Controllers
             MedicineCard card = null;
 
             // Act
-            card = await controller.GetMedicineCardAsync(cpr);
+            card = (await controller.GetMedicineCardAsync(cpr)).Value;
 
             // Assert
             Assert.NotNull(card);

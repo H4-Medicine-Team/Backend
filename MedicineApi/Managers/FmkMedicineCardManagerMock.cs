@@ -18,7 +18,7 @@ namespace MedicineApi.Managers
                 throw new ArgumentException("Cpr number was null or empty");
 
             if (cprNumber.Contains('-'))
-                cprNumber.Replace("-", "");
+                cprNumber = cprNumber.Replace("-", "");
 
             if (cprNumber.Length < 10)
                 throw new ArgumentOutOfRangeException("Cpr number is not valid");
@@ -27,15 +27,15 @@ namespace MedicineApi.Managers
             Address address = new Address(2630, "Taastrup", "Kingosvej 1", "Denmark");
             Patient patient = new Patient(person, address);
 
-            Days[] days =
+            DayOfWeek[] days =
             {
-                Days.Monday,
-                Days.Tuesday,
-                Days.Wednesday,
-                Days.Thursday,
-                Days.Friday,
-                Days.Saturday,
-                Days.Sunday
+                DayOfWeek.Monday,
+                DayOfWeek.Tuesday,
+                DayOfWeek.Wednesday,
+                DayOfWeek.Thursday,
+                DayOfWeek.Friday,
+                DayOfWeek.Saturday,
+                DayOfWeek.Sunday
             };
             Interval interval = new Interval(DateTime.Now, DateTime.Now.AddDays(2), DateTime.Now.AddMinutes(10), days);
             Dosage dosage = new Dosage(2, AmountType.Pieces, interval);
