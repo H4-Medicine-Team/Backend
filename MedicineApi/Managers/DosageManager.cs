@@ -1,4 +1,5 @@
 ﻿using MedicineApi.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 
@@ -6,22 +7,27 @@ namespace MedicineApi.Managers
 {
     public class DosageManager : IDosageManager
     {
-        public DosageManager() {}
+        private readonly DataAccess.Dtos.MedicineContext _context;
+
+        public DosageManager(DataAccess.Dtos.MedicineContext context) 
+        {
+            _context = context ?? throw new ArgumentNullException($"No db context was given {typeof(DosageManager)}");
+        }
 
         /// <inheritdoc />
-        public Task EditReminderAsync(Dosage dosage)
+        public async Task EditReminderAsync(Dosage dosage)
+        {
+            
+        }
+
+        /// <inheritdoc />
+        public async Task InsertReminderAsync(int drugId, Dosage dosage)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc />
-        public Task InsertReminderAsync(int drugId, Dosage dosage)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public Task RemoveReminderAsync(int dosageId)
+        public async Task RemoveReminderAsync(int dosageId)
         {
             throw new NotImplementedException();
         }

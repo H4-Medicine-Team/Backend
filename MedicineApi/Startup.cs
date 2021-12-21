@@ -1,12 +1,15 @@
+using DataAccess.Dtos;
 using MedicineApi.Managers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Protocols;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
@@ -27,6 +30,17 @@ namespace MedicineApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Compile app settings
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+            // Db connection context
+            services.AddDbContext<MedicineContext>(
+                options => options.UseSqlServer(configuration.GetConnectionString("MedicineDbContext"))
+            );
+
             // Managers
             services.AddScoped<IMedicineCardManager, FmkMedicineCardManagerMock>();
             services.AddScoped<IDosageManager, DosageManager>();
