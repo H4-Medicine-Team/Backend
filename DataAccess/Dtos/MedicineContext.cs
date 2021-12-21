@@ -86,15 +86,22 @@ namespace DataAccess.Dtos
 
                 entity.Property(e => e.DrugId).HasColumnName("drug_id");
 
+                entity.Property(e => e.IntervalId).HasColumnName("interval_id");
+
                 entity.HasOne(d => d.AmountType)
                     .WithMany(p => p.Dosages)
                     .HasForeignKey(d => d.AmountTypeId)
-                    .HasConstraintName("FK__Dosage__amount_t__2B3F6F97");
+                    .HasConstraintName("FK__Dosage__amount_t__46E78A0C");
 
                 entity.HasOne(d => d.Drug)
                     .WithMany(p => p.Dosages)
                     .HasForeignKey(d => d.DrugId)
-                    .HasConstraintName("FK__Dosage__drug_id__2C3393D0");
+                    .HasConstraintName("FK__Dosage__drug_id__47DBAE45");
+
+                entity.HasOne(d => d.Interval)
+                    .WithMany(p => p.Dosages)
+                    .HasForeignKey(d => d.IntervalId)
+                    .HasConstraintName("FK__Dosage__interval__48CFD27E");
             });
 
             modelBuilder.Entity<Drug>(entity =>
@@ -115,7 +122,7 @@ namespace DataAccess.Dtos
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Drugs)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Drug__user_id__267ABA7A");
+                    .HasConstraintName("FK__Drug__user_id__3D5E1FD2");
             });
 
             modelBuilder.Entity<Interval>(entity =>
@@ -126,15 +133,9 @@ namespace DataAccess.Dtos
                     .ValueGeneratedNever()
                     .HasColumnName("id");
 
-                entity.Property(e => e.ConsumptionTime)
-                    .IsRequired()
-                    .IsRowVersion()
-                    .IsConcurrencyToken()
-                    .HasColumnName("consumption_time");
+                entity.Property(e => e.ConsumptionTime).HasColumnName("consumption_time");
 
                 entity.Property(e => e.DaysId).HasColumnName("days_id");
-
-                entity.Property(e => e.DosageId).HasColumnName("dosage_id");
 
                 entity.Property(e => e.EndTime)
                     .HasColumnType("datetime")
@@ -147,12 +148,7 @@ namespace DataAccess.Dtos
                 entity.HasOne(d => d.Days)
                     .WithMany(p => p.Intervals)
                     .HasForeignKey(d => d.DaysId)
-                    .HasConstraintName("FK__Interval__days_i__30F848ED");
-
-                entity.HasOne(d => d.Dosage)
-                    .WithMany(p => p.Intervals)
-                    .HasForeignKey(d => d.DosageId)
-                    .HasConstraintName("FK__Interval__dosage__31EC6D26");
+                    .HasConstraintName("FK__Interval__days_i__440B1D61");
             });
 
             modelBuilder.Entity<User>(entity =>

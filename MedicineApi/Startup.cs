@@ -1,3 +1,4 @@
+using AutoMapper;
 using DataAccess.Dtos;
 using MedicineApi.Managers;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +15,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace MedicineApi
@@ -35,6 +37,13 @@ namespace MedicineApi
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
             .AddJsonFile("appsettings.json")
             .Build();
+
+            // Add automapper profiles. Scan for profiles in the current assembly
+            var mapCfg = new MapperConfiguration(mc =>
+            {
+                mc.AddMaps(Assembly.GetExecutingAssembly());
+            });
+            services.AddSingleton(mapCfg.CreateMapper());
 
             // Db connection context
             services.AddDbContext<MedicineContext>(
