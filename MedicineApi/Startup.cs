@@ -29,6 +29,7 @@ namespace MedicineApi
         {
             // Managers
             services.AddScoped<IMedicineCardManager, FmkMedicineCardManagerMock>();
+            services.AddScoped<IMedicineDkManager, MedicineDkManager>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
