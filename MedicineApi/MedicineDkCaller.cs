@@ -10,7 +10,14 @@ namespace MedicineApi
 {
     public class MedicineDkCaller : IGetMedication<string>, ISearchMedication<string>
     {
-        public async Task<string> GetMedicineByDrugIdentifier(string drugId)
+        public async Task<string> GetMedicineByDliIdentifier(string dli)
+        {
+            string url = FormatUrl("MinDrugDescriptionService", "GetByDliDrugIdentifier", dli, false);
+
+            return await GetResponse(url);
+        }
+
+        public async Task<string> GetMedicineByDruidIdentifier(string drugId)
         {
             string url = FormatUrl("MinDrugDescriptionService", "GetByDrugIdentifier", drugId, false);
 

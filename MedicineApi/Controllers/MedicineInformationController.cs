@@ -29,9 +29,14 @@ namespace MedicineApi.Controllers
             _logger = logger ?? throw new ArgumentNullException($"Logger was not injected {typeof(MedicineInformationController)}");
         }
 
-
+        /// <summary>
+        /// Searches for specific medicin with that name
+        /// </summary>
+        /// <param name="medicineName">param</param>
+        /// <returns></returns>
         [HttpGet("searchmedicine")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult<List<SearchMedicineDTO>> SearchMedicineByName(string medicineName = "para")
         {
             if (string.IsNullOrEmpty(medicineName))
@@ -42,7 +47,12 @@ namespace MedicineApi.Controllers
                 SearchResult searchResult = _medicineDkManager.SearchMedicineByDrugName(medicineName).Result;
                 MedicineDkDTOConverter converter = new MedicineDkDTOConverter();
 
-                return Ok(converter.ConvertSearchResultToDtos(searchResult));
+                List<SearchMedicineDTO> dtos = converter.ConvertSearchResultToDtos(searchResult);
+
+                if (dtos.Count == 0)
+                    return NotFound("No medicine found with that name");
+
+                return Ok(dtos);
             }
             catch (Exception e)
             {
@@ -56,17 +66,17 @@ namespace MedicineApi.Controllers
         }
 
         // medicine id is found with druid of the search
-        [HttpGet("getmedicinebyidentifier")]
+        [HttpGet("getmedicinebydruididentifier")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<GetResultDTO> GetMedicineById(string medicineId = "28103321701")
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<GetResultDTO> GetMedicineById(string druidID = "28103321701")
         {
-            if (string.IsNullOrEmpty(medicineId))
+            if (string.IsNullOrEmpty(druidID))
                 return BadRequest("Medicin id is required");
 
             try
             {
-                GetResult getResult = _medicineDkManager.GetMedicineByDrugIdentifier(medicineId).Result;
+                GetResult getResult = _medicineDkManager.GetMedicineByDruidIdentifier(druidID).Result;
                 MedicineDkDTOConverter converter = new MedicineDkDTOConverter();
 
                 return Ok(converter.ConvertGetResultToDto(getResult));
@@ -82,16 +92,43 @@ namespace MedicineApi.Controllers
             return null;
         }
 
-        [HttpGet("getmedicinebypackageid")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<GetResult> GetMedicineByPackageID(string packageId = "490529")
+        [HttpGet("getmedicinebydliidentifier")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<GetResult> GetMedicineByDli(string dliID = "4810")
         {
-            if (string.IsNullOrEmpty(packageId))
+            if (string.IsNullOrEmpty(dliID))
                 return BadRequest("Package is required");
 
             try
             {
-                GetResult getResult = _medicineDkManager.GetMedicineByPackageNumberIdentifier(packageId).Result;
+                GetResult getResult = _medicineDkManager.GetMedicineByDliIdentifier(dliID).Result;
+                MedicineDkDTOConverter converter = new MedicineDkDTOConverter();
+
+                return Ok(converter.ConvertGetResultToDto(getResult));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Bad request for GetMedicineByDli " + e.ToString());
+
+                // Problem is code 500
+                return Problem(e.Message);
+            }
+
+            return null;
+        }
+
+        [HttpGet("getmedicinebypackageid")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<GetResult> GetMedicineByPackageID(string packageID = "490529")
+        {
+            if (string.IsNullOrEmpty(packageID))
+                return BadRequest("Package is required");
+
+            try
+            {
+                GetResult getResult = _medicineDkManager.GetMedicineByPackageNumberIdentifier(packageID).Result;
                 MedicineDkDTOConverter converter = new MedicineDkDTOConverter();
 
                 return Ok(converter.ConvertGetResultToDto(getResult));

@@ -19,9 +19,18 @@ namespace MedicineApi.Managers
             caller = new MedicineDkCaller();
         }
 
-        public Task<GetResult> GetMedicineByDrugIdentifier(string drugId)
+        public Task<GetResult> GetMedicineByDliIdentifier(string dli)
         {
-            string searchRes = caller.GetMedicineByDrugIdentifier(drugId).Result;
+            string searchRes = caller.GetMedicineByDliIdentifier(dli).Result;
+
+            GetResult searchResult = JsonSerializer.Deserialize<GetResult>(searchRes);
+
+            return Task.Run(() => { return searchResult; });
+        }
+
+        public Task<GetResult> GetMedicineByDruidIdentifier(string druidId)
+        {
+            string searchRes = caller.GetMedicineByDruidIdentifier(druidId).Result;
 
             GetResult searchResult = JsonSerializer.Deserialize<GetResult>(searchRes);
 
