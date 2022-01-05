@@ -68,7 +68,7 @@ namespace MedicineApi.Controllers
         [HttpGet("getmedicinebydruid")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<GetResultDTO> GetMedicineByDruid(string druidID = "28103321701")
+        public ActionResult<List<GetMedicineDTO>> GetMedicineByDruid(string druidID = "28103321701")
         {
             if (string.IsNullOrEmpty(druidID))
                 return BadRequest("Medicin id is required");
@@ -95,7 +95,7 @@ namespace MedicineApi.Controllers
         [HttpGet("getmedicinebyidentifier")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<GetResultDTO> GetMedicineByDli(string dliID = "4810")
+        public ActionResult<List<GetMedicineDTO>> GetMedicineByDli(string dliID = "4810")
         {
             if (string.IsNullOrEmpty(dliID))
                 return BadRequest("Package is required");
@@ -121,7 +121,7 @@ namespace MedicineApi.Controllers
         [HttpGet("getmedicinebypackageid")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<GetResultDTO> GetMedicineByPackageID(string packageID = "490529")
+        public ActionResult<List<GetMedicineDTO>> GetMedicineByPackageID(string packageID = "490529")
         {
             if (string.IsNullOrEmpty(packageID))
                 return BadRequest("Package is required");

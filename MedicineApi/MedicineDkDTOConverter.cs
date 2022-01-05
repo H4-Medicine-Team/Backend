@@ -10,10 +10,9 @@ namespace MedicineApi
 {
     public class MedicineDkDTOConverter
     {
-        public GetResultDTO ConvertGetResultToDto(GetResult getResult)
+        public List<GetMedicineDTO> ConvertGetResultToDto(GetResult getResult)
         {
-            GetResultDTO dto = new GetResultDTO();
-            dto.MedicineInformation = new List<GetMedicineDTO>();
+            List<GetMedicineDTO> medicineInformation = new List<GetMedicineDTO>();
 
             foreach(var medicine in getResult.FormattedTextFieldStructures)
             {
@@ -29,10 +28,10 @@ namespace MedicineApi
                 medicineDto.SpecialAttributes = medicine.SpecialAttributes;
                 medicineDto.Title = medicine.Title;
 
-                dto.MedicineInformation.Add(medicineDto);
+                medicineInformation.Add(medicineDto);
             }
 
-            return dto;
+            return medicineInformation;
         }
 
         public List<SearchMedicineDTO> ConvertSearchResultToDtos(SearchResult searchResult)
