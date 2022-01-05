@@ -13,7 +13,7 @@ namespace MedicineApi
         public GetResultDTO ConvertGetResultToDto(GetResult getResult)
         {
             GetResultDTO dto = new GetResultDTO();
-            dto.GetMedicineDtos = new List<GetMedicineDTO>();
+            dto.MedicineInformation = new List<GetMedicineDTO>();
 
             foreach(var medicine in getResult.FormattedTextFieldStructures)
             {
@@ -29,7 +29,7 @@ namespace MedicineApi
                 medicineDto.SpecialAttributes = medicine.SpecialAttributes;
                 medicineDto.Title = medicine.Title;
 
-                dto.GetMedicineDtos.Add(medicineDto);
+                dto.MedicineInformation.Add(medicineDto);
             }
 
             return dto;

@@ -23,7 +23,7 @@ namespace MedicineApi.Controllers
         private readonly ILogger _logger;
         IMedicineDkManager _medicineDkManager;
 
-        public MedicineInformationController(IMedicineDkManager medicineDkManager, ILogger<MedicineController> logger)
+        public MedicineInformationController(IMedicineDkManager medicineDkManager, ILogger<MedicineInformationController> logger)
         {
             _medicineDkManager = medicineDkManager ?? throw new ArgumentNullException($"Medicine Manager was not injected {typeof(MedicineInformationController)}");
             _logger = logger ?? throw new ArgumentNullException($"Logger was not injected {typeof(MedicineInformationController)}");
@@ -65,11 +65,10 @@ namespace MedicineApi.Controllers
             return null;
         }
 
-        // medicine id is found with druid of the search
-        [HttpGet("getmedicinebydruididentifier")]
+        [HttpGet("getmedicinebydruid")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<GetResultDTO> GetMedicineById(string druidID = "28103321701")
+        public ActionResult<GetResultDTO> GetMedicineByDruid(string druidID = "28103321701")
         {
             if (string.IsNullOrEmpty(druidID))
                 return BadRequest("Medicin id is required");
@@ -92,10 +91,11 @@ namespace MedicineApi.Controllers
             return null;
         }
 
-        [HttpGet("getmedicinebydliidentifier")]
+        // its dli identifier
+        [HttpGet("getmedicinebyidentifier")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<GetResult> GetMedicineByDli(string dliID = "4810")
+        public ActionResult<GetResultDTO> GetMedicineByDli(string dliID = "4810")
         {
             if (string.IsNullOrEmpty(dliID))
                 return BadRequest("Package is required");
@@ -121,7 +121,7 @@ namespace MedicineApi.Controllers
         [HttpGet("getmedicinebypackageid")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<GetResult> GetMedicineByPackageID(string packageID = "490529")
+        public ActionResult<GetResultDTO> GetMedicineByPackageID(string packageID = "490529")
         {
             if (string.IsNullOrEmpty(packageID))
                 return BadRequest("Package is required");

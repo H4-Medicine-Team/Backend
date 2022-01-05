@@ -7,6 +7,6 @@ namespace MedicineApi.Models.MedicineDk.Dtos
 {
     public class GetResultDTO
     {
-        public List<GetMedicineDTO> GetMedicineDtos { get; set; }
+        public List<GetMedicineDTO> MedicineInformation { get; set; }
     }
 }
