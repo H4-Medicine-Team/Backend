@@ -10,7 +10,7 @@ namespace MedicineApi
 {
     public class MedicineDkDTOConverter
     {
-        public List<GetMedicineDTO> ConvertGetResultToDto(GetResult getResult)
+        public List<GetMedicineDTO> ConvertGetResultToDtos(GetResult getResult)
         {
             List<GetMedicineDTO> medicineInformation = new List<GetMedicineDTO>();
 

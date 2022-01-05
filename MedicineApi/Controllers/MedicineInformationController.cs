@@ -65,20 +65,20 @@ namespace MedicineApi.Controllers
             return null;
         }
 
-        [HttpGet("getmedicinebydruid")]
+        [HttpGet("getmedicinebydrugid")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<List<GetMedicineDTO>> GetMedicineByDruid(string druidID = "28103321701")
+        public ActionResult<List<GetMedicineDTO>> GetMedicineByDrugId(string drugID = "28103321701")
         {
-            if (string.IsNullOrEmpty(druidID))
+            if (string.IsNullOrEmpty(drugID))
                 return BadRequest("Medicin id is required");
 
             try
             {
-                GetResult getResult = _medicineDkManager.GetMedicineByDruidIdentifier(druidID).Result;
+                GetResult getResult = _medicineDkManager.GetMedicineByDrugId(drugID).Result;
                 MedicineDkDTOConverter converter = new MedicineDkDTOConverter();
 
-                return Ok(converter.ConvertGetResultToDto(getResult));
+                return Ok(converter.ConvertGetResultToDtos(getResult));
             }
             catch (Exception e)
             {
@@ -102,10 +102,10 @@ namespace MedicineApi.Controllers
 
             try
             {
-                GetResult getResult = _medicineDkManager.GetMedicineByDliIdentifier(dliID).Result;
+                GetResult getResult = _medicineDkManager.GetMedicineByIdentifier(dliID).Result;
                 MedicineDkDTOConverter converter = new MedicineDkDTOConverter();
 
-                return Ok(converter.ConvertGetResultToDto(getResult));
+                return Ok(converter.ConvertGetResultToDtos(getResult));
             }
             catch (Exception e)
             {
@@ -121,17 +121,17 @@ namespace MedicineApi.Controllers
         [HttpGet("getmedicinebypackageid")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<List<GetMedicineDTO>> GetMedicineByPackageID(string packageID = "490529")
+        public ActionResult<List<GetMedicineDTO>> GetMedicineByPackageId(string packageID = "490529")
         {
             if (string.IsNullOrEmpty(packageID))
                 return BadRequest("Package is required");
 
             try
             {
-                GetResult getResult = _medicineDkManager.GetMedicineByPackageNumberIdentifier(packageID).Result;
+                GetResult getResult = _medicineDkManager.GetMedicineByPackageNumberId(packageID).Result;
                 MedicineDkDTOConverter converter = new MedicineDkDTOConverter();
 
-                return Ok(converter.ConvertGetResultToDto(getResult));
+                return Ok(converter.ConvertGetResultToDtos(getResult));
             }
             catch (Exception e)
             {

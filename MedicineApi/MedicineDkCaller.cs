@@ -10,21 +10,21 @@ namespace MedicineApi
 {
     public class MedicineDkCaller : IGetMedication<string>, ISearchMedication<string>
     {
-        public async Task<string> GetMedicineByDliIdentifier(string dli)
+        public async Task<string> GetMedicineByIdentifier(string dli)
         {
             string url = FormatUrl("MinDrugDescriptionService", "GetByDliDrugIdentifier", dli, false);
 
             return await GetResponse(url);
         }
 
-        public async Task<string> GetMedicineByDruidIdentifier(string drugId)
+        public async Task<string> GetMedicineByDrugId(string drugId)
         {
             string url = FormatUrl("MinDrugDescriptionService", "GetByDrugIdentifier", drugId, false);
 
             return await GetResponse(url);
         }
 
-        public async Task<string> GetMedicineByPackageNumberIdentifier(string packageId)
+        public async Task<string> GetMedicineByPackageNumberId(string packageId)
         {
             string url = FormatUrl("MinDrugDescriptionService", "GetByPackageNumberIdentifier", packageId, false);
 

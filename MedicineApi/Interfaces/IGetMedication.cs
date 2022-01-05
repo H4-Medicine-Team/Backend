@@ -7,10 +7,10 @@ namespace MedicineApi.Interfaces
 {
     public interface IGetMedication<T>
     {
-        public Task<T> GetMedicineByDliIdentifier(string dli);
+        public Task<T> GetMedicineByIdentifier(string dli);
 
-        public Task<T> GetMedicineByDruidIdentifier(string druidId);
+        public Task<T> GetMedicineByDrugId(string drugId);
 
-        public Task<T> GetMedicineByPackageNumberIdentifier(string packageId);
+        public Task<T> GetMedicineByPackageNumberId(string packageId);
     }
 }
