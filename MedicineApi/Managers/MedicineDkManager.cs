@@ -7,63 +7,70 @@ using System.Threading.Tasks;
 using MedicineApi.Models;
 using MedicineApi.Models.MedicineDk;
 using MedicineApi.Interfaces;
+using MedicineApi.Models.MedicineDk.Dtos;
 
 namespace MedicineApi.Managers
 {
     public class MedicineDkManager : IMedicineDkManager
     {
         private readonly MedicineDkCaller _caller;
+        private readonly MedicineDkDTOConverter _converter;
 
-        public MedicineDkManager(MedicineDkCaller caller)
+        public MedicineDkManager(MedicineDkCaller caller, MedicineDkDTOConverter converter)
         {
             _caller = caller;
+            _converter = converter;
         }
 
-        public Task<GetResult> GetMedicineByIdentifier(string dli)
+        /// <inheritdoc />
+        public async Task<List<GetMedicineDTO>> GetMedicineByIdentifier(string dli)
         {
             if (string.IsNullOrEmpty(dli))
                 throw new ArgumentException("Dli is null or empty");
 
-            string searchRes = _caller.GetMedicineByIdentifier(dli).Result;
+            string getRes = await _caller.GetMedicineByIdentifier(dli);
 
-            GetResult searchResult = JsonSerializer.Deserialize<GetResult>(searchRes);
+            GetResult getResult = JsonSerializer.Deserialize<GetResult>(getRes);
 
-            return Task.Run(() => { return searchResult; });
+            return _converter.ConvertGetResultToDtos(getResult);
         }
 
-        public Task<GetResult> GetMedicineByDrugId(string drugId)
+        /// <inheritdoc />
+        public async Task<List<GetMedicineDTO>> GetMedicineByDrugId(string drugId)
         {
             if (string.IsNullOrEmpty(drugId))
                 throw new ArgumentException("Drug id is null or empty");
 
-            string searchRes = _caller.GetMedicineByDrugId(drugId).Result;
+            string getRes = await _caller.GetMedicineByDrugId(drugId);
 
-            GetResult searchResult = JsonSerializer.Deserialize<GetResult>(searchRes);
+            GetResult getResult = JsonSerializer.Deserialize<GetResult>(getRes);
 
-            return Task.Run(() => { return searchResult; });
+            return _converter.ConvertGetResultToDtos(getResult);
         }
 
-        public Task<GetResult> GetMedicineByPackageNumberId(string packageId)
+        /// <inheritdoc />
+        public async Task<List<GetMedicineDTO>> GetMedicineByPackageNumberId(string packageId)
         {
             if (string.IsNullOrEmpty(packageId))
                 throw new ArgumentException("Package id is null or empty");
 
-            string searchRes = _caller.GetMedicineByPackageNumberId(packageId).Result;
+            string getRes = await _caller.GetMedicineByPackageNumberId(packageId);
 
-            GetResult searchResult = JsonSerializer.Deserialize<GetResult>(searchRes);        
+            GetResult getResult = JsonSerializer.Deserialize<GetResult>(getRes);
 
-            return Task.Run(() => { return searchResult; });
+            return _converter.ConvertGetResultToDtos(getResult);
         }
-        public Task<SearchResult> SearchMedicineByDrugName(string drugName)
+        /// <inheritdoc />
+        public async Task<List<SearchMedicineDTO>> SearchMedicineByDrugName(string drugName)
         {
             if (string.IsNullOrEmpty(drugName))
                 throw new ArgumentException("Drug name is null or empty");
 
-            string searchRes = _caller.SearchMedicineByDrugName(drugName).Result;
+            string searchRes = await _caller.SearchMedicineByDrugName(drugName);
 
             SearchResult searchResult = JsonSerializer.Deserialize<SearchResult>(searchRes);
 
-            return Task.Run(() => { return searchResult; });
+            return _converter.ConvertSearchResultToDtos(searchResult);
         }
     }
 }

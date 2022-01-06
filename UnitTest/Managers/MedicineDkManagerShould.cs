@@ -1,5 +1,6 @@
 ﻿using MedicineApi.Managers;
 using MedicineApi.Models.MedicineDk;
+using MedicineApi.Models.MedicineDk.Dtos;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
@@ -78,7 +79,7 @@ namespace UnitTest.Managers
         {
             // Arrange
             IMedicineDkManager manager = GetFakeManager();
-            SearchResult searchResult = null;
+            List<SearchMedicineDTO> searchResult = null;
 
             // Act
             searchResult = await manager.SearchMedicineByDrugName(medicineName);
@@ -92,7 +93,7 @@ namespace UnitTest.Managers
         {
             // Arrange
             IMedicineDkManager manager = GetFakeManager();
-            GetResult getResult = null;
+            List<GetMedicineDTO> getResult = null;
             string drugIdentifier = "4810";
 
             // Act
@@ -105,7 +106,7 @@ namespace UnitTest.Managers
 
         private IMedicineDkManager GetFakeManager()
         {
-            return new MedicineDkManagerMock();
+            return new MedicineDkManagerMock(new MedicineApi.MedicineDkDTOConverter());
         }
     }
 }

@@ -29,6 +29,7 @@ namespace MedicineApi
         {
             // Intergration service
             services.AddScoped<MedicineDkCaller>();
+            services.AddScoped<MedicineDkDTOConverter>();
 
             // Managers
             services.AddScoped<IMedicineCardManager, FmkMedicineCardManagerMock>();

@@ -29,7 +29,7 @@ namespace MedicineApi.Controllers
             _logger = logger ?? throw new ArgumentNullException($"Logger was not injected {typeof(MedicineInformationController)}");
         }
 
-        // test name: para
+        // working medicine name: para
         /// <summary>
         /// Searches for specific medicin with that name
         /// </summary>
@@ -38,17 +38,14 @@ namespace MedicineApi.Controllers
         [HttpGet("searchmedicine")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<List<SearchMedicineDTO>> SearchMedicineByName(string medicineName)
+        public async Task<ActionResult<List<SearchMedicineDTO>>> SearchMedicineByName(string medicineName)
         {
             if (string.IsNullOrEmpty(medicineName))
                 return BadRequest("Medicine name is required");
 
             try
             {
-                SearchResult searchResult = _medicineDkManager.SearchMedicineByDrugName(medicineName).Result;
-                MedicineDkDTOConverter converter = new MedicineDkDTOConverter();
-
-                List<SearchMedicineDTO> dtos = converter.ConvertSearchResultToDtos(searchResult);
+                List<SearchMedicineDTO> dtos = await _medicineDkManager.SearchMedicineByDrugName(medicineName);
 
                 if (dtos.Count == 0)
                     return NotFound("No medicine found with that name");
@@ -63,10 +60,10 @@ namespace MedicineApi.Controllers
                 return Problem("There was problem handling request");
             }
 
-            return null;
+            return NotFound();
         }
 
-        // test drug id: 28103321701
+        // working drug id: 28103321701
         /// <summary>
         /// Finds medicine with that drug id
         /// </summary>
@@ -75,17 +72,14 @@ namespace MedicineApi.Controllers
         [HttpGet("getmedicinebydrugid")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<List<GetMedicineDTO>> GetMedicineByDrugId(string drugID)
+        public async Task<ActionResult<List<GetMedicineDTO>>> GetMedicineByDrugId(string drugID)
         {
             if (string.IsNullOrEmpty(drugID))
                 return BadRequest("Drug id is required");
 
             try
             {
-                GetResult getResult = _medicineDkManager.GetMedicineByDrugId(drugID).Result;
-                MedicineDkDTOConverter converter = new MedicineDkDTOConverter();
-
-                return Ok(converter.ConvertGetResultToDtos(getResult));
+                return Ok(await _medicineDkManager.GetMedicineByDrugId(drugID));
             }
             catch (Exception e)
             {
@@ -95,10 +89,10 @@ namespace MedicineApi.Controllers
                 return Problem(e.Message);
             }
 
-            return null;
+            return NotFound();
         }
 
-        // test dli: 4810
+        // working dli: 4810
         /// <summary>
         /// Finds medicine medicine with that dli 
         /// <br>Dli is a identifier found in search medicine</br>
@@ -108,17 +102,14 @@ namespace MedicineApi.Controllers
         [HttpGet("getmedicinebyidentifier")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<List<GetMedicineDTO>> GetMedicineByDli(string dliID)
+        public async Task<ActionResult<List<GetMedicineDTO>>> GetMedicineByDli(string dliID)
         {
             if (string.IsNullOrEmpty(dliID))
                 return BadRequest("Identifier is required");
 
             try
             {
-                GetResult getResult = _medicineDkManager.GetMedicineByIdentifier(dliID).Result;
-                MedicineDkDTOConverter converter = new MedicineDkDTOConverter();
-
-                return Ok(converter.ConvertGetResultToDtos(getResult));
+                return Ok(await _medicineDkManager.GetMedicineByIdentifier(dliID));
             }
             catch (Exception e)
             {
@@ -128,10 +119,10 @@ namespace MedicineApi.Controllers
                 return Problem(e.Message);
             }
 
-            return null;
+            return NotFound();
         }
 
-        // test packageID: 490529
+        // working packageID: 490529
         /// <summary>
         /// Finds medicine with that package id
         /// </summary>
@@ -140,17 +131,14 @@ namespace MedicineApi.Controllers
         [HttpGet("getmedicinebypackageid")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<List<GetMedicineDTO>> GetMedicineByPackageId(string packageID)
+        public async Task<ActionResult<List<GetMedicineDTO>>> GetMedicineByPackageId(string packageID)
         {
             if (string.IsNullOrEmpty(packageID))
                 return BadRequest("Package id is required");
 
             try
             {
-                GetResult getResult = _medicineDkManager.GetMedicineByPackageNumberId(packageID).Result;
-                MedicineDkDTOConverter converter = new MedicineDkDTOConverter();
-
-                return Ok(converter.ConvertGetResultToDtos(getResult));
+                return Ok(await _medicineDkManager.GetMedicineByPackageNumberId(packageID));
             }
             catch (Exception e)
             {
@@ -160,7 +148,7 @@ namespace MedicineApi.Controllers
                 return Problem(e.Message);
             }
 
-            return null;
+            return NotFound();
         }
     }
 }

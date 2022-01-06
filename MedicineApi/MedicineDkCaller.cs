@@ -15,7 +15,6 @@ namespace MedicineApi
         /// Gets medicine from medicine dk api with dli
         /// </summary>
         /// <param name="drugId"></param>
-        /// <returns></returns>
         public async Task<string> GetMedicineByIdentifier(string dli)
         {
             string url = FormatUrl("MinDrugDescriptionService", "GetByDliDrugIdentifier", dli, false);
@@ -27,7 +26,6 @@ namespace MedicineApi
         /// Gets medicine from medicine dk api with drug id
         /// </summary>
         /// <param name="drugId"></param>
-        /// <returns></returns>
         public async Task<string> GetMedicineByDrugId(string drugId)
         {
             string url = FormatUrl("MinDrugDescriptionService", "GetByDrugIdentifier", drugId, false);
@@ -39,7 +37,6 @@ namespace MedicineApi
         /// Gets medicine from medicine dk api with package id
         /// </summary>
         /// <param name="packageId"></param>
-        /// <returns></returns>
         public async Task<string> GetMedicineByPackageNumberId(string packageId)
         {
             string url = FormatUrl("MinDrugDescriptionService", "GetByPackageNumberIdentifier", packageId, false);
@@ -51,7 +48,6 @@ namespace MedicineApi
         /// Finds medicine from medicine dk api with drug name
         /// </summary>
         /// <param name="drugName"></param>
-        /// <returns></returns>
         public async Task<string> SearchMedicineByDrugName(string drugName)
         {
             string url = FormatUrl("MinDrugSearchService", "SearchByDrugName", drugName);
@@ -66,7 +62,6 @@ namespace MedicineApi
         /// <param name="method"></param>
         /// <param name="parameter"></param>
         /// <param name="extraInfo"></param>
-        /// <returns></returns>
         private string FormatUrl(string service, string method, string parameter, bool extraInfo = true)
         {
             if (extraInfo)
@@ -83,7 +78,6 @@ namespace MedicineApi
         /// Sends request to designated url
         /// </summary>
         /// <param name="url"></param>
-        /// <returns></returns>
         private async Task<string> GetResponse(string url)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);

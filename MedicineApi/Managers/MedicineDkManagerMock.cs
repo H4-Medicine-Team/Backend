@@ -1,4 +1,5 @@
 ﻿using MedicineApi.Models.MedicineDk;
+using MedicineApi.Models.MedicineDk.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +9,14 @@ namespace MedicineApi.Managers
 {
     public class MedicineDkManagerMock : IMedicineDkManager
     {
-        public MedicineDkManagerMock()
+        private readonly MedicineDkDTOConverter _converter;
+        public MedicineDkManagerMock(MedicineDkDTOConverter converter)
         {
+            _converter = converter;
         }
 
         /// <inheritdoc />
-        public Task<GetResult> GetMedicineByDrugId(string drugId)
+        public async Task<List<GetMedicineDTO>> GetMedicineByDrugId(string drugId)
         {
             if (string.IsNullOrEmpty(drugId))
                 throw new ArgumentException("Drug id is null or empty");
@@ -39,11 +42,11 @@ namespace MedicineApi.Managers
                 }
             };
 
-            return Task.Run(() => { return getResult; });
+            return _converter.ConvertGetResultToDtos(getResult);
         }
 
         /// <inheritdoc />
-        public Task<GetResult> GetMedicineByIdentifier(string dli)
+        public async Task<List<GetMedicineDTO>> GetMedicineByIdentifier(string dli)
         {
             if (string.IsNullOrEmpty(dli))
                 throw new ArgumentException("Dli is null or empty");
@@ -60,11 +63,11 @@ namespace MedicineApi.Managers
                 Title = "Paracetamol"
             };
 
-            return Task.Run(() => { return getResult; });
+            return _converter.ConvertGetResultToDtos(getResult);
         }
 
         /// <inheritdoc />
-        public Task<GetResult> GetMedicineByPackageNumberId(string packageId)
+        public async Task<List<GetMedicineDTO>> GetMedicineByPackageNumberId(string packageId)
         {
             if (string.IsNullOrEmpty(packageId))
                 throw new ArgumentException("Package id is null or empty");
@@ -81,11 +84,11 @@ namespace MedicineApi.Managers
                 Title = "Paracetamol"
             };
 
-            return Task.Run(() => { return getResult; });
+            return _converter.ConvertGetResultToDtos(getResult);
         }
 
         /// <inheritdoc />
-        public Task<SearchResult> SearchMedicineByDrugName(string drugName)
+        public async Task<List<SearchMedicineDTO>> SearchMedicineByDrugName(string drugName)
         {
             if (string.IsNullOrEmpty(drugName))
                 throw new ArgumentException("Drug name is null or empty");
@@ -116,7 +119,7 @@ namespace MedicineApi.Managers
                 }
             };
 
-            return Task.Run(() => { return searchResult; });
+            return _converter.ConvertSearchResultToDtos(searchResult);
         }
     }
 }
