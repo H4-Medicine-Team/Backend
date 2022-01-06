@@ -13,11 +13,8 @@ namespace MedicineApi.Profiles
 
             // Dto
             CreateMap<Dosage, DataAccess.Dtos.Dosage>()
-                .ForMember(d => d.AmountTypeId, opt => opt.MapFrom(src => (int)src.AmountType));
-
-            CreateMap<AmountType, DataAccess.Dtos.AmountType>()
-                .ForMember(d => d.Id, opt => opt.MapFrom(src => (int)src))
-                .ForMember(d => d.Name, opt => opt.MapFrom(src => src.ToString()));
+                .ForMember(d => d.AmountType, opt => opt.MapFrom(src => src.AmountType))
+                .ForMember(d => d.Id, opt => opt.MapFrom(src => src.Id));
 
             CreateMap<Interval, DataAccess.Dtos.Interval>()
                 .ForMember(d => d.StartTime, opt => opt.MapFrom(src => src.Start))

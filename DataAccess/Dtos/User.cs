@@ -9,13 +9,13 @@ namespace DataAccess.Dtos
     {
         public User()
         {
-            Drugs = new HashSet<Drug>();
+            UserOfDrugs = new HashSet<UserOfDrug>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public int? ExternalId { get; set; }
+        public string ExternalId { get; set; }
 
-        public virtual ICollection<Drug> Drugs { get; set; }
+        public virtual ICollection<UserOfDrug> UserOfDrugs { get; set; }
     }
 }

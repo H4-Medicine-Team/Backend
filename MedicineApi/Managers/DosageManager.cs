@@ -19,23 +19,41 @@ namespace MedicineApi.Managers
         /// <inheritdoc />
         public async Task EditReminderAsync(Dosage dosage)
         {
-            
+            DataAccess.Dtos.Dosage dto = _mapper.Map<DataAccess.Dtos.Dosage>(dosage);
+
+            var resault = _context.Dosages.Find(dto.Id);
+            if (resault != null)
+            {
+                resault.Interval = dto.Interval;
+                resault.AmountType = dto.AmountType;
+                resault.Amount = dto.Amount;
+                await _context.SaveChangesAsync();
+                
+            }
         }
 
         /// <inheritdoc />
         public async Task InsertReminderAsync(int drugId, Dosage dosage)
         {
             DataAccess.Dtos.Dosage dto = _mapper.Map<DataAccess.Dtos.Dosage>(dosage);
+            // DataAccess.Dtos.Interval interval = _mapper.Map<DataAccess.Dtos.Interval>(dosage.Interval);
             dto.DrugId = drugId;
+            
 
-            //await _context.Dosages.AddAsync(dto);
-            //await _context.SaveChangesAsync();
+            await _context.Dosages.AddAsync(dto);
+            //await _context.Intervals.AddAsync(interval);
+            await _context.SaveChangesAsync();
         }
 
         /// <inheritdoc />
         public async Task RemoveReminderAsync(int dosageId)
         {
-            throw new NotImplementedException();
+            DataAccess.Dtos.Dosage dto = _context.Dosages.Find(dosageId);
+            
+
+            _context.Intervals.Remove(_context.Intervals.Find(dto.IntervalId));
+            _context.Dosages.Remove(dto);
+            await _context.SaveChangesAsync();
         }
     }
 }

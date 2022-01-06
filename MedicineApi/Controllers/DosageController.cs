@@ -40,7 +40,7 @@ namespace MedicineApi.Controllers
             catch (Exception e)
             {
                 _logger.LogError("Could not perform request RemoveReminderAsync " + e.Message);
-                return Problem(e.Message, e.Source, 500, e.InnerException.HResult.ToString());
+                return Problem(e.Message, e.Source, 500, e.HResult.ToString());
             }
         }
 

@@ -10,13 +10,14 @@ namespace DataAccess.Dtos
         public Drug()
         {
             Dosages = new HashSet<Dosage>();
+            UserOfDrugs = new HashSet<UserOfDrug>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public int? UserId { get; set; }
+        public string ExternalId { get; set; }
 
-        public virtual User User { get; set; }
         public virtual ICollection<Dosage> Dosages { get; set; }
+        public virtual ICollection<UserOfDrug> UserOfDrugs { get; set; }
     }
 }
