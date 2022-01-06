@@ -33,8 +33,6 @@ namespace MedicineApi.Controllers
         /// <summary>
         /// Searches for specific medicin with that name
         /// </summary>
-        /// <param name="medicineName">param</param>
-        /// <returns></returns>
         [HttpGet("searchmedicine")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -67,8 +65,6 @@ namespace MedicineApi.Controllers
         /// <summary>
         /// Finds medicine with that drug id
         /// </summary>
-        /// <param name="drugID"></param>
-        /// <returns></returns>
         [HttpGet("getmedicinebydrugid")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -83,7 +79,7 @@ namespace MedicineApi.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError("Bad request for GetMedicineById " + e.ToString());
+                _logger.LogError("Bad request for GetMedicineByDrugId " + e.ToString());
 
                 // Problem is code 500
                 return Problem(e.Message);
@@ -97,8 +93,6 @@ namespace MedicineApi.Controllers
         /// Finds medicine medicine with that dli 
         /// <br>Dli is a identifier found in search medicine</br>
         /// </summary>
-        /// <param name="dliID"></param>
-        /// <returns></returns>
         [HttpGet("getmedicinebyidentifier")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -126,8 +120,6 @@ namespace MedicineApi.Controllers
         /// <summary>
         /// Finds medicine with that package id
         /// </summary>
-        /// <param name="packageID"></param>
-        /// <returns></returns>
         [HttpGet("getmedicinebypackageid")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

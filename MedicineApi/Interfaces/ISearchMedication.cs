@@ -10,7 +10,6 @@ namespace MedicineApi.Interfaces
         /// <summary>
         /// Finds medicine with that drug name
         /// </summary>
-        /// <param name="drugName"></param>
         public Task<T> SearchMedicineByDrugName(string drugName);
     }
 }

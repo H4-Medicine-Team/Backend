@@ -14,7 +14,6 @@ namespace MedicineApi
         /// <summary>
         /// Gets medicine from medicine dk api with dli
         /// </summary>
-        /// <param name="drugId"></param>
         public async Task<string> GetMedicineByIdentifier(string dli)
         {
             string url = FormatUrl("MinDrugDescriptionService", "GetByDliDrugIdentifier", dli, false);
@@ -25,7 +24,6 @@ namespace MedicineApi
         /// <summary>
         /// Gets medicine from medicine dk api with drug id
         /// </summary>
-        /// <param name="drugId"></param>
         public async Task<string> GetMedicineByDrugId(string drugId)
         {
             string url = FormatUrl("MinDrugDescriptionService", "GetByDrugIdentifier", drugId, false);
@@ -36,7 +34,6 @@ namespace MedicineApi
         /// <summary>
         /// Gets medicine from medicine dk api with package id
         /// </summary>
-        /// <param name="packageId"></param>
         public async Task<string> GetMedicineByPackageNumberId(string packageId)
         {
             string url = FormatUrl("MinDrugDescriptionService", "GetByPackageNumberIdentifier", packageId, false);
@@ -47,7 +44,6 @@ namespace MedicineApi
         /// <summary>
         /// Finds medicine from medicine dk api with drug name
         /// </summary>
-        /// <param name="drugName"></param>
         public async Task<string> SearchMedicineByDrugName(string drugName)
         {
             string url = FormatUrl("MinDrugSearchService", "SearchByDrugName", drugName);
@@ -58,12 +54,10 @@ namespace MedicineApi
         /// <summary>
         /// Formats the medicine dk api link with the parameters
         /// </summary>
-        /// <param name="service"></param>
-        /// <param name="method"></param>
-        /// <param name="parameter"></param>
-        /// <param name="extraInfo"></param>
+        /// <param name="extraInfo">If get service is used and extra params is set to true, exception will occur</param>
         private string FormatUrl(string service, string method, string parameter, bool extraInfo = true)
         {
+            // TODO: Move link to config
             if (extraInfo)
             {
                 return $"https://webservices.medicin.dk/V2/MIN/Praeparat/{service}.svc/rest/{method}/Zbc-Ringsted/6f6f756c-5f00-4ca8-be67-2d2965092b2d/{parameter}/true";
@@ -77,7 +71,6 @@ namespace MedicineApi
         /// <summary>
         /// Sends request to designated url
         /// </summary>
-        /// <param name="url"></param>
         private async Task<string> GetResponse(string url)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);

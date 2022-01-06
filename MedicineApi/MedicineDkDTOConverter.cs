@@ -13,7 +13,6 @@ namespace MedicineApi
         /// <summary>
         /// Converts get result to list of get medicine dto
         /// </summary>
-        /// <param name="getResult"></param>
         public List<GetMedicineDTO> ConvertGetResultToDtos(GetResult getResult)
         {
             List<GetMedicineDTO> medicineInformation = new List<GetMedicineDTO>();
@@ -41,7 +40,6 @@ namespace MedicineApi
         /// <summary>
         /// Converts search result to list of search medicine dto
         /// </summary>
-        /// <param name="getResult"></param>
         public List<SearchMedicineDTO> ConvertSearchResultToDtos(SearchResult searchResult)
         {
             List<SearchMedicineDTO> searchDrugDTOs = new List<SearchMedicineDTO>();
@@ -64,7 +62,10 @@ namespace MedicineApi
             return searchDrugDTOs;
         }
 
-        public string RemoveHtml(string input)
+        /// <summary>
+        /// Removes html tags from the string
+        /// </summary>
+        private string RemoveHtml(string input)
         {
             return Regex.Replace(input, "<.*?>", String.Empty);
         }
