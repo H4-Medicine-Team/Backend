@@ -31,8 +31,9 @@ namespace MedicineApi.Controllers
 
         // working medicine name: para
         /// <summary>
-        /// Searches for specific medicin with that name
+        /// Searches for medicine with a name that matches the provided input <paramref name="medicineName"/>
         /// </summary>
+        /// <returns>Returns a list of medicine</returns>
         [HttpGet("searchmedicine")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -57,14 +58,13 @@ namespace MedicineApi.Controllers
                 // Problem is code 500
                 return Problem("There was problem handling request");
             }
-
-            return NotFound();
         }
 
         // working drug id: 28103321701
         /// <summary>
-        /// Finds medicine with that drug id
+        /// Finds medicine that matches with provided <paramref name="drugID"/>
         /// </summary>
+        /// <returns>Returns a list of information about the medicin</returns>
         [HttpGet("getmedicinebydrugid")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -84,15 +84,14 @@ namespace MedicineApi.Controllers
                 // Problem is code 500
                 return Problem(e.Message);
             }
-
-            return NotFound();
         }
 
         // working dli: 4810
         /// <summary>
-        /// Finds medicine medicine with that dli 
-        /// <br>Dli is a identifier found in search medicine</br>
+        /// Finds medicine that matches with provided <paramref name="dliID"/>
+        /// <br>Dli is a internal identifier used in medicine.dk</br>
         /// </summary>
+        /// <returns>Returns a list of information about the medicin</returns>
         [HttpGet("getmedicinebyidentifier")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -112,14 +111,13 @@ namespace MedicineApi.Controllers
                 // Problem is code 500
                 return Problem(e.Message);
             }
-
-            return NotFound();
         }
 
         // working packageID: 490529
         /// <summary>
-        /// Finds medicine with that package id
+        /// Finds medicine that matches with <paramref name="packageID"/>
         /// </summary>
+        /// <returns>Returns a list of information about the medicin</returns>
         [HttpGet("getmedicinebypackageid")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -139,8 +137,6 @@ namespace MedicineApi.Controllers
                 // Problem is code 500
                 return Problem(e.Message);
             }
-
-            return NotFound();
         }
     }
 }
