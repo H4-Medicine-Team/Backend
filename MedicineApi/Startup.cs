@@ -27,8 +27,13 @@ namespace MedicineApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Intergration service
+            services.AddScoped<MedicineDkCaller>();
+            services.AddScoped<MedicineDkDTOConverter>();
+
             // Managers
             services.AddScoped<IMedicineCardManager, FmkMedicineCardManagerMock>();
+            services.AddScoped<IMedicineDkManager, MedicineDkManager>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
