@@ -12,25 +12,31 @@ namespace MedicineApi.Managers
 {
     public class MedicineDkManager : IMedicineDkManager
     {
-        MedicineDkCaller caller;
+        private readonly MedicineDkCaller _caller;
 
-        public MedicineDkManager()
+        public MedicineDkManager(MedicineDkCaller caller)
         {
-            caller = new MedicineDkCaller();
+            _caller = caller;
         }
 
         public Task<GetResult> GetMedicineByIdentifier(string dli)
         {
-            string searchRes = caller.GetMedicineByIdentifier(dli).Result;
+            if (string.IsNullOrEmpty(dli))
+                throw new ArgumentException("Dli is null or empty");
+
+            string searchRes = _caller.GetMedicineByIdentifier(dli).Result;
 
             GetResult searchResult = JsonSerializer.Deserialize<GetResult>(searchRes);
 
             return Task.Run(() => { return searchResult; });
         }
 
-        public Task<GetResult> GetMedicineByDrugId(string druidId)
+        public Task<GetResult> GetMedicineByDrugId(string drugId)
         {
-            string searchRes = caller.GetMedicineByDrugId(druidId).Result;
+            if (string.IsNullOrEmpty(drugId))
+                throw new ArgumentException("Drug id is null or empty");
+
+            string searchRes = _caller.GetMedicineByDrugId(drugId).Result;
 
             GetResult searchResult = JsonSerializer.Deserialize<GetResult>(searchRes);
 
@@ -39,7 +45,10 @@ namespace MedicineApi.Managers
 
         public Task<GetResult> GetMedicineByPackageNumberId(string packageId)
         {
-            string searchRes = caller.GetMedicineByPackageNumberId(packageId).Result;
+            if (string.IsNullOrEmpty(packageId))
+                throw new ArgumentException("Package id is null or empty");
+
+            string searchRes = _caller.GetMedicineByPackageNumberId(packageId).Result;
 
             GetResult searchResult = JsonSerializer.Deserialize<GetResult>(searchRes);        
 
@@ -47,7 +56,10 @@ namespace MedicineApi.Managers
         }
         public Task<SearchResult> SearchMedicineByDrugName(string drugName)
         {
-            string searchRes = caller.SearchMedicineByDrugName(drugName).Result;
+            if (string.IsNullOrEmpty(drugName))
+                throw new ArgumentException("Drug name is null or empty");
+
+            string searchRes = _caller.SearchMedicineByDrugName(drugName).Result;
 
             SearchResult searchResult = JsonSerializer.Deserialize<SearchResult>(searchRes);
 

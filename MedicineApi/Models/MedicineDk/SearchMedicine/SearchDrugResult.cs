@@ -7,6 +7,9 @@ namespace MedicineApi.Models.MedicineDk
 {
     public class SearchDrugResult
     {
+        /// <summary>
+        /// Medicine found
+        /// </summary>
         public SearchMedicine[] DrugSearchResult { get; set; }
     }
 }

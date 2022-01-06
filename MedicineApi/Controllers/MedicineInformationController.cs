@@ -29,6 +29,7 @@ namespace MedicineApi.Controllers
             _logger = logger ?? throw new ArgumentNullException($"Logger was not injected {typeof(MedicineInformationController)}");
         }
 
+        // test name: para
         /// <summary>
         /// Searches for specific medicin with that name
         /// </summary>
@@ -37,7 +38,7 @@ namespace MedicineApi.Controllers
         [HttpGet("searchmedicine")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<List<SearchMedicineDTO>> SearchMedicineByName(string medicineName = "para")
+        public ActionResult<List<SearchMedicineDTO>> SearchMedicineByName(string medicineName)
         {
             if (string.IsNullOrEmpty(medicineName))
                 return BadRequest("Medicine name is required");
@@ -65,13 +66,19 @@ namespace MedicineApi.Controllers
             return null;
         }
 
+        // test drug id: 28103321701
+        /// <summary>
+        /// Finds medicine with that drug id
+        /// </summary>
+        /// <param name="drugID"></param>
+        /// <returns></returns>
         [HttpGet("getmedicinebydrugid")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<List<GetMedicineDTO>> GetMedicineByDrugId(string drugID = "28103321701")
+        public ActionResult<List<GetMedicineDTO>> GetMedicineByDrugId(string drugID)
         {
             if (string.IsNullOrEmpty(drugID))
-                return BadRequest("Medicin id is required");
+                return BadRequest("Drug id is required");
 
             try
             {
@@ -91,14 +98,20 @@ namespace MedicineApi.Controllers
             return null;
         }
 
-        // its dli identifier
+        // test dli: 4810
+        /// <summary>
+        /// Finds medicine medicine with that dli 
+        /// <br>Dli is a identifier found in search medicine</br>
+        /// </summary>
+        /// <param name="dliID"></param>
+        /// <returns></returns>
         [HttpGet("getmedicinebyidentifier")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<List<GetMedicineDTO>> GetMedicineByDli(string dliID = "4810")
+        public ActionResult<List<GetMedicineDTO>> GetMedicineByDli(string dliID)
         {
             if (string.IsNullOrEmpty(dliID))
-                return BadRequest("Package is required");
+                return BadRequest("Identifier is required");
 
             try
             {
@@ -118,13 +131,19 @@ namespace MedicineApi.Controllers
             return null;
         }
 
+        // test packageID: 490529
+        /// <summary>
+        /// Finds medicine with that package id
+        /// </summary>
+        /// <param name="packageID"></param>
+        /// <returns></returns>
         [HttpGet("getmedicinebypackageid")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<List<GetMedicineDTO>> GetMedicineByPackageId(string packageID = "490529")
+        public ActionResult<List<GetMedicineDTO>> GetMedicineByPackageId(string packageID)
         {
             if (string.IsNullOrEmpty(packageID))
-                return BadRequest("Package is required");
+                return BadRequest("Package id is required");
 
             try
             {
@@ -143,6 +162,5 @@ namespace MedicineApi.Controllers
 
             return null;
         }
-
     }
 }

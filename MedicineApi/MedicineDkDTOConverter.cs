@@ -10,6 +10,11 @@ namespace MedicineApi
 {
     public class MedicineDkDTOConverter
     {
+        /// <summary>
+        /// Converts get result to list of get medicine dto
+        /// </summary>
+        /// <param name="getResult"></param>
+        /// <returns></returns>
         public List<GetMedicineDTO> ConvertGetResultToDtos(GetResult getResult)
         {
             List<GetMedicineDTO> medicineInformation = new List<GetMedicineDTO>();
@@ -34,6 +39,11 @@ namespace MedicineApi
             return medicineInformation;
         }
 
+        /// <summary>
+        /// Converts search result to list of search medicine dto
+        /// </summary>
+        /// <param name="getResult"></param>
+        /// <returns></returns>
         public List<SearchMedicineDTO> ConvertSearchResultToDtos(SearchResult searchResult)
         {
             List<SearchMedicineDTO> searchDrugDTOs = new List<SearchMedicineDTO>();
