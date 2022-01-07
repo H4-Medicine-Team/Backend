@@ -19,6 +19,15 @@ namespace MedicineApi.Managers
         /// <inheritdoc />
         public async Task EditReminderAsync(Dosage dosage)
         {
+            if (dosage is null)
+                throw new ArgumentNullException("Dosage was null");
+
+            if (dosage.Interval is null)
+                throw new ArgumentNullException("Interval in dosage was null");
+
+            if (dosage.Amount < 0)
+                throw new ArgumentOutOfRangeException("Amount cannot be less than 0");
+
             DataAccess.Dtos.Dosage dto = _mapper.Map<DataAccess.Dtos.Dosage>(dosage);
 
             var resault = _context.Dosages.Find(dto.Id);
@@ -49,7 +58,6 @@ namespace MedicineApi.Managers
         public async Task RemoveReminderAsync(int dosageId)
         {
             DataAccess.Dtos.Dosage dto = _context.Dosages.Find(dosageId);
-            
 
             _context.Intervals.Remove(_context.Intervals.Find(dto.IntervalId));
             _context.Dosages.Remove(dto);

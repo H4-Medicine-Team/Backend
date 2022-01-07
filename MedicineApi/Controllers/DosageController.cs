@@ -30,8 +30,12 @@ namespace MedicineApi.Controllers
         /// <param name="dosageId">The id reference to remove.</param>
         /// <returns>Status code for execution.</returns>
         [HttpDelete("reminder")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RemoveReminderAsync(int dosageId)
         {
+            if (dosageId < 0)
+                return BadRequest("Dosage id cannot be under 0");
+
             try
             {
                 await _dosageManager.RemoveReminderAsync(dosageId);
@@ -53,10 +57,23 @@ namespace MedicineApi.Controllers
         [HttpPut("reminder")]
         public async Task<IActionResult> EditReminderAsync(Dosage dosage)
         {
+            if (dosage is null)
+                return BadRequest("Dosage is null");
+
             try
             {
                 await _dosageManager.EditReminderAsync(dosage);
                 return Ok();
+            }
+            catch (ArgumentNullException e)
+            {
+                // Logging
+                throw;
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                // Logging
+                throw;
             }
             catch (Exception e)
             {
@@ -73,8 +90,12 @@ namespace MedicineApi.Controllers
         /// <param name="dosage">The dosage reminder to insert.</param>
         /// <returns>Status code for execution.</returns>
         [HttpPost("reminder")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> InsertReminderAsync(int drugId, Dosage dosage)
         {
+            if (drugId < 0)
+                return BadRequest("Drug id cannot be less than 0");
+
             try
             {
                 await _dosageManager.InsertReminderAsync(drugId, dosage);
