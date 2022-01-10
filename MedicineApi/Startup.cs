@@ -32,6 +32,7 @@ namespace MedicineApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             // Compile app settings
             IConfigurationRoot configuration = new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
@@ -53,6 +54,11 @@ namespace MedicineApi
             // Managers
             services.AddScoped<IMedicineCardManager, FmkMedicineCardManagerMock>();
             services.AddScoped<IDosageManager, DosageManager>();
+            services.AddScoped<IMedicineDkManager, MedicineDkManager>();
+          
+            // Intergration service
+            services.AddScoped<MedicineDkCaller>();
+            services.AddScoped<MedicineDkDTOConverter>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
