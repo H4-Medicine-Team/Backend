@@ -51,12 +51,10 @@ namespace MedicineApi.Managers
                 throw new ArgumentOutOfRangeException("DrugId cannot be less than 0");
 
             DataAccess.Dtos.Dosage dto = _mapper.Map<DataAccess.Dtos.Dosage>(dosage);
-            // DataAccess.Dtos.Interval interval = _mapper.Map<DataAccess.Dtos.Interval>(dosage.Interval);
             dto.DrugId = drugId;
             
 
             await _context.Dosages.AddAsync(dto);
-            //await _context.Intervals.AddAsync(interval);
             await _context.SaveChangesAsync();
         }
 

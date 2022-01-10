@@ -58,9 +58,10 @@ namespace UnitTest.Controllers
             DosageController controller = GetFakeController();
             IActionResult result;
             int dosageId = -10;
+            Dosage dosage = new Dosage();
 
             // Act
-            result = await controller.InsertReminderAsync(dosageId, new Dosage());
+            result = await controller.InsertReminderAsync(dosageId, dosage);
 
             // Act && Assert
             Assert.NotNull(result as BadRequestObjectResult);
@@ -86,9 +87,10 @@ namespace UnitTest.Controllers
             // Arrange
             DosageController controller = GetFakeController();
             IActionResult result;
+            Dosage dosage = new Dosage(10, AmountType.MG, null);
 
             // Act
-            result = await controller.EditReminderAsync(new Dosage(10,AmountType.MG,null));
+            result = await controller.EditReminderAsync(dosage);
 
             // Act && Assert
             Assert.NotNull(result as BadRequestObjectResult);
@@ -101,8 +103,11 @@ namespace UnitTest.Controllers
             DosageController controller = GetFakeController();
             IActionResult result;
             DayOfWeek[] dayOfWeek = new DayOfWeek[3] { DayOfWeek.Sunday,DayOfWeek.Saturday,DayOfWeek.Monday};
+            Interval interval = new Interval(DateTime.Now, DateTime.Now.AddMinutes(5), DateTime.Now.AddHours(2), dayOfWeek);
+            Dosage dosage = new Dosage(-5, AmountType.MG,interval);
+
             // Act
-            result = await controller.EditReminderAsync(new Dosage(-5,AmountType.MG,new Interval(DateTime.Now, DateTime.Now.AddMinutes(5), DateTime.Now.AddHours(2), dayOfWeek)));
+            result = await controller.EditReminderAsync(dosage);
 
             // Act && Assert
             Assert.NotNull(result as BadRequestObjectResult);
