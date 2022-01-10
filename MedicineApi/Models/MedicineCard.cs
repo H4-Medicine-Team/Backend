@@ -12,7 +12,7 @@ namespace MedicineApi.Models
         /// <summary>
         /// Refers to the list of medication the patient has.
         /// </summary>
-        public List<DrugMedication> DrugMedication { get; private set; }
+        public List<DrugMedication> DrugMedications { get; private set; }
 
         /// <summary>
         /// Refers to the organisation which have a relation to the patient.
@@ -22,7 +22,7 @@ namespace MedicineApi.Models
         public MedicineCard(Patient patient, List<DrugMedication> drugMedication, Organisation organisation)
         {
             Patient = patient;
-            DrugMedication = drugMedication;
+            DrugMedications = drugMedication;
             Organisation = organisation;
         }
     }
