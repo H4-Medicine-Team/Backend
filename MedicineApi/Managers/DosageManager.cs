@@ -44,6 +44,12 @@ namespace MedicineApi.Managers
         /// <inheritdoc />
         public async Task InsertReminderAsync(int drugId, Dosage dosage)
         {
+            if (dosage is null)
+                throw new ArgumentNullException("Dosage is null");
+
+            if (drugId < 0)
+                throw new ArgumentOutOfRangeException("DrugId cannot be less than 0");
+
             DataAccess.Dtos.Dosage dto = _mapper.Map<DataAccess.Dtos.Dosage>(dosage);
             // DataAccess.Dtos.Interval interval = _mapper.Map<DataAccess.Dtos.Interval>(dosage.Interval);
             dto.DrugId = drugId;
@@ -57,6 +63,9 @@ namespace MedicineApi.Managers
         /// <inheritdoc />
         public async Task RemoveReminderAsync(int dosageId)
         {
+            if (dosageId < 0)
+                throw new ArgumentOutOfRangeException("DosageId cannot be less than 0");
+
             DataAccess.Dtos.Dosage dto = _context.Dosages.Find(dosageId);
 
             _context.Intervals.Remove(_context.Intervals.Find(dto.IntervalId));

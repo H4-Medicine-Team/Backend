@@ -60,6 +60,12 @@ namespace MedicineApi.Controllers
             if (dosage is null)
                 return BadRequest("Dosage is null");
 
+            if (dosage.Interval is null)
+                return BadRequest("Interval is null");
+
+            if (dosage.Amount < 0)
+                return BadRequest("Dosage ammount is out of range");
+
             try
             {
                 await _dosageManager.EditReminderAsync(dosage);
@@ -67,13 +73,13 @@ namespace MedicineApi.Controllers
             }
             catch (ArgumentNullException e)
             {
-                // Logging
-                throw;
+                _logger.LogError("The object was null " + e.Message);
+                return BadRequest(e.Message);
             }
             catch (ArgumentOutOfRangeException e)
             {
-                // Logging
-                throw;
+                _logger.LogError("Ammount can not be less then 0 " + e.Message);
+                return BadRequest(e.Message);
             }
             catch (Exception e)
             {

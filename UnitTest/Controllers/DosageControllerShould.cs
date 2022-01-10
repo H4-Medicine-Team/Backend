@@ -27,6 +27,16 @@ namespace UnitTest.Controllers
         }
 
         [Fact]
+        public void ThrowArgumentNullException_WhenLoggerIsNull()
+        {
+            // Arrange
+            IDosageManager manager = A.Fake<IDosageManager>();
+
+            // Act & Assert
+            Assert.ThrowsAny<ArgumentNullException>(() => new DosageController(manager, null));
+        }
+
+        [Fact]
         public async void ThrowBadRequestException_WhenRemoveDosageIDIsNotValid_RemoveReminderAsync()
         {
             // Arrange
@@ -51,6 +61,48 @@ namespace UnitTest.Controllers
 
             // Act
             result = await controller.InsertReminderAsync(dosageId, new Dosage());
+
+            // Act && Assert
+            Assert.NotNull(result as BadRequestObjectResult);
+        }
+
+        [Fact]
+        public async void ThrowBadRequestException_WhenEditDosageIsNull_EditReminderAsync()
+        {
+            // Arrange
+            DosageController controller = GetFakeController();
+            IActionResult result;
+
+            // Act
+            result = await controller.EditReminderAsync(null);
+
+            // Act && Assert
+            Assert.NotNull(result as BadRequestObjectResult);
+        }
+
+        [Fact]
+        public async void ThrowBadRequestException_WhenEditDosagIntervalIsNull_EditReminderAsync()
+        {
+            // Arrange
+            DosageController controller = GetFakeController();
+            IActionResult result;
+
+            // Act
+            result = await controller.EditReminderAsync(new Dosage(10,AmountType.MG,null));
+
+            // Act && Assert
+            Assert.NotNull(result as BadRequestObjectResult);
+        }
+
+        [Fact]
+        public async void ThrowBadRequestException_WhenEidtDosageAmmountIsOutOfRange_EditReminderAsync()
+        {
+            // Arrange
+            DosageController controller = GetFakeController();
+            IActionResult result;
+            DayOfWeek[] dayOfWeek = new DayOfWeek[3] { DayOfWeek.Sunday,DayOfWeek.Saturday,DayOfWeek.Monday};
+            // Act
+            result = await controller.EditReminderAsync(new Dosage(-5,AmountType.MG,new Interval(DateTime.Now, DateTime.Now.AddMinutes(5), DateTime.Now.AddHours(2), dayOfWeek)));
 
             // Act && Assert
             Assert.NotNull(result as BadRequestObjectResult);
