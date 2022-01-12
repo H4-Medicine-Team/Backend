@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using MedicineApi.Models;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace MedicineApi.Managers
 {
@@ -15,6 +17,18 @@ namespace MedicineApi.Managers
             _context = context ?? throw new ArgumentNullException($"No db context was given {typeof(DosageManager)}");
             _mapper = mapper ?? throw new ArgumentNullException($"No mapper was given {typeof(DosageManager)}");
         }
+
+        /// <inheritdoc/>
+        public async Task<Dosage> GetAllDosagesById(int userid)
+        {
+            var sqlParameter = new SqlParameter("@UserID", userid);
+
+
+            var resault = _context.Dosages.FromSqlRaw($"EXEC GetIntervalForToday @UserID ",sqlParameter).ToListAsync();
+            await _context.SaveChangesAsync();
+            return null;
+        }
+
 
         /// <inheritdoc />
         public async Task EditReminderAsync(Dosage dosage)
@@ -42,8 +56,11 @@ namespace MedicineApi.Managers
         }
 
         /// <inheritdoc />
-        public async Task InsertReminderAsync(int drugId, Dosage dosage)
+        public async Task InsertReminderAsync(int drugId, Dosage dosage, int userid)
         {
+            if (userid < 0)
+                throw new ArgumentOutOfRangeException("Userid cannot be less then 0");
+
             if (dosage is null)
                 throw new ArgumentNullException("Dosage is null");
 
@@ -52,6 +69,7 @@ namespace MedicineApi.Managers
 
             DataAccess.Dtos.Dosage dto = _mapper.Map<DataAccess.Dtos.Dosage>(dosage);
             dto.DrugId = drugId;
+            dto.UserId = userid;
             
 
             await _context.Dosages.AddAsync(dto);

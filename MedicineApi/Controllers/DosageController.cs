@@ -47,6 +47,28 @@ namespace MedicineApi.Controllers
                 return Problem(e.Message, e.Source, 500, e.HResult.ToString());
             }
         }
+        /// <summary>
+        /// Gets the lates reminder from a user
+        /// </summary>
+        /// <param name="Userid">The user that you want the latest reminder from</param>
+        /// <returns></returns>
+        [HttpGet("dosage")]
+        public async Task<IActionResult> GetDosage(int Userid)
+        {
+            if (Userid < 0)
+                return BadRequest("Userid can not be less then 0");
+
+            try
+            {
+                await _dosageManager.GetAllDosagesById(Userid);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Could not perform request EditReminderAsync " + e.Message);
+                return Problem(e.Message, e.Source, 500, e.InnerException.HResult.ToString());
+            }
+        }
 
 
         /// <summary>
@@ -89,22 +111,27 @@ namespace MedicineApi.Controllers
         }
 
 
+        // TODO: Needs specific catch
+        // TODO: Check for userid value
+        // TODO: Needs unit test
+
         /// <summary>
         /// Inserts the dosage reminder object into the database.
         /// </summary>
         /// <param name="drugId">The drug id the reminder should reference</param>
         /// <param name="dosage">The dosage reminder to insert.</param>
+        /// <param name="userid">The id the user insert dosage under</param>
         /// <returns>Status code for execution.</returns>
         [HttpPost("reminder")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> InsertReminderAsync(int drugId, Dosage dosage)
+        public async Task<IActionResult> InsertReminderAsync(int drugId, Dosage dosage, int userid)
         {
             if (drugId < 0)
                 return BadRequest("Drug id cannot be less than 0");
 
             try
             {
-                await _dosageManager.InsertReminderAsync(drugId, dosage);
+                await _dosageManager.InsertReminderAsync(drugId, dosage, userid);
                 return Ok();
             }
             catch (Exception e)

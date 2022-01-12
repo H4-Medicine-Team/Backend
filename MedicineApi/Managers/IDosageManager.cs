@@ -10,7 +10,8 @@ namespace MedicineApi.Managers
         /// </summary>
         /// <param name="drugId">The drug id to reference.</param>
         /// <param name="dosage">The dosage reminder to insert</param>
-        Task InsertReminderAsync(int drugId, Dosage dosage);
+        /// <param name="userid">The id the user insert dosage under</param>
+        Task InsertReminderAsync(int drugId, Dosage dosage,int userid);
 
         /// <summary>
         /// Edits a dosage reminder in the database
@@ -23,5 +24,12 @@ namespace MedicineApi.Managers
         /// </summary>
         /// <param name="dosageId">The id to remove</param>
         Task RemoveReminderAsync(int dosageId);
+
+        /// <summary>
+        /// Get The dosage reminder by userid
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <returns></returns>
+        Task<Dosage> GetAllDosagesById(int userid);
     }
 }
