@@ -1,4 +1,5 @@
 ﻿using MedicineApi.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MedicineApi.Managers
@@ -26,10 +27,10 @@ namespace MedicineApi.Managers
         Task RemoveReminderAsync(int dosageId);
 
         /// <summary>
-        /// Get The dosage reminder by userid
+        /// Get lates reminder by id
         /// </summary>
         /// <param name="userid"></param>
         /// <returns></returns>
-        Task<Dosage> GetAllDosagesById(int userid);
+        Task<Dosage> GetLatesReminderById(int userid);
     }
 }

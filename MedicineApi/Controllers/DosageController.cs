@@ -53,19 +53,24 @@ namespace MedicineApi.Controllers
         /// <param name="Userid">The user that you want the latest reminder from</param>
         /// <returns></returns>
         [HttpGet("dosage")]
-        public async Task<IActionResult> GetDosage(int Userid)
+        public async Task<IActionResult> GetLatesReminderAsync(int Userid)
         {
             if (Userid < 0)
                 return BadRequest("Userid can not be less then 0");
 
             try
             {
-                await _dosageManager.GetAllDosagesById(Userid);
+                await _dosageManager.GetLatesReminderById(Userid);
                 return Ok();
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                _logger.LogError("Userid can not be less then 0" + e.Message);
+                return BadRequest(e.Message);
             }
             catch (Exception e)
             {
-                _logger.LogError("Could not perform request EditReminderAsync " + e.Message);
+                _logger.LogError("Could not perform request GetLatesReminder " + e.Message);
                 return Problem(e.Message, e.Source, 500, e.InnerException.HResult.ToString());
             }
         }
@@ -128,6 +133,9 @@ namespace MedicineApi.Controllers
         {
             if (drugId < 0)
                 return BadRequest("Drug id cannot be less than 0");
+
+            if (userid < 0)
+                return BadRequest("Userid cannot be less then 0");
 
             try
             {
