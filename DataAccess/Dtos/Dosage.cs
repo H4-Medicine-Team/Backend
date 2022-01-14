@@ -12,8 +12,10 @@ namespace DataAccess.Dtos
         public string AmountType { get; set; }
         public int? DrugId { get; set; }
         public int? IntervalId { get; set; }
+        public int? UserId { get; set; }
 
         public virtual Drug Drug { get; set; }
         public virtual Interval Interval { get; set; }
+        public virtual User User { get; set; }
     }
 }

@@ -37,6 +37,21 @@ namespace UnitTest.Controllers
         }
 
         [Fact]
+        public async void ThrowBadRequestException_WhenGetUserIdIsOutOfRange_GetLatesReminderAsync()
+        {
+            // Arrange
+            DosageController controller = GetFakeController();
+            int userid = -10;
+            IActionResult expected;
+
+            // Act
+            expected = await controller.GetLatesReminderAsync(userid);
+
+            // Act && Assert
+            Assert.NotNull(expected as BadRequestObjectResult);
+        }
+
+        [Fact]
         public async void ThrowBadRequestException_WhenRemoveDosageIDIsNotValid_RemoveReminderAsync()
         {
             // Arrange
@@ -59,9 +74,10 @@ namespace UnitTest.Controllers
             IActionResult result;
             int dosageId = -10;
             Dosage dosage = new Dosage();
+            int userid = 1;
 
             // Act
-            result = await controller.InsertReminderAsync(dosageId, dosage);
+            result = await controller.InsertReminderAsync(dosageId, dosage, userid);
 
             // Act && Assert
             Assert.NotNull(result as BadRequestObjectResult);

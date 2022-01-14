@@ -22,7 +22,6 @@ namespace DataAccess.Dtos
         public virtual DbSet<Drug> Drugs { get; set; }
         public virtual DbSet<Interval> Intervals { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<UserOfDrug> UserOfDrugs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -40,20 +39,6 @@ namespace DataAccess.Dtos
             modelBuilder.Entity<Day>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Friday).HasColumnName("friday");
-
-                entity.Property(e => e.Monday).HasColumnName("monday");
-
-                entity.Property(e => e.Saturday).HasColumnName("saturday");
-
-                entity.Property(e => e.Sunday).HasColumnName("sunday");
-
-                entity.Property(e => e.Thursday).HasColumnName("thursday");
-
-                entity.Property(e => e.Tuesday).HasColumnName("tuesday");
-
-                entity.Property(e => e.Wednesday).HasColumnName("wednesday");
             });
 
             modelBuilder.Entity<Dosage>(entity =>
@@ -73,15 +58,22 @@ namespace DataAccess.Dtos
 
                 entity.Property(e => e.IntervalId).HasColumnName("interval_id");
 
+                entity.Property(e => e.UserId).HasColumnName("User_id");
+
                 entity.HasOne(d => d.Drug)
                     .WithMany(p => p.Dosages)
                     .HasForeignKey(d => d.DrugId)
-                    .HasConstraintName("FK__Dosage__drug_id__30F848ED");
+                    .HasConstraintName("FK__Dosage__drug_id__2D27B809");
 
                 entity.HasOne(d => d.Interval)
                     .WithMany(p => p.Dosages)
                     .HasForeignKey(d => d.IntervalId)
-                    .HasConstraintName("FK__Dosage__interval__31EC6D26");
+                    .HasConstraintName("FK__Dosage__interval__2E1BDC42");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Dosages)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK__Dosage__User_id__2F10007B");
             });
 
             modelBuilder.Entity<Drug>(entity =>
@@ -122,7 +114,7 @@ namespace DataAccess.Dtos
                 entity.HasOne(d => d.Days)
                     .WithMany(p => p.Intervals)
                     .HasForeignKey(d => d.DaysId)
-                    .HasConstraintName("FK__Interval__days_i__2E1BDC42");
+                    .HasConstraintName("FK__Interval__days_i__2A4B4B5E");
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -140,25 +132,6 @@ namespace DataAccess.Dtos
                     .HasMaxLength(200)
                     .IsUnicode(false)
                     .HasColumnName("name");
-            });
-
-            modelBuilder.Entity<UserOfDrug>(entity =>
-            {
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Did).HasColumnName("did");
-
-                entity.Property(e => e.Uid).HasColumnName("uid");
-
-                entity.HasOne(d => d.DidNavigation)
-                    .WithMany(p => p.UserOfDrugs)
-                    .HasForeignKey(d => d.Did)
-                    .HasConstraintName("FK__UserOfDrugs__did__286302EC");
-
-                entity.HasOne(d => d.UidNavigation)
-                    .WithMany(p => p.UserOfDrugs)
-                    .HasForeignKey(d => d.Uid)
-                    .HasConstraintName("FK__UserOfDrugs__uid__29572725");
             });
 
             OnModelCreatingPartial(modelBuilder);

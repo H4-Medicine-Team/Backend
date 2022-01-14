@@ -10,7 +10,6 @@ namespace DataAccess.Dtos
         public Drug()
         {
             Dosages = new HashSet<Dosage>();
-            UserOfDrugs = new HashSet<UserOfDrug>();
         }
 
         public int Id { get; set; }
@@ -18,6 +17,5 @@ namespace DataAccess.Dtos
         public string ExternalId { get; set; }
 
         public virtual ICollection<Dosage> Dosages { get; set; }
-        public virtual ICollection<UserOfDrug> UserOfDrugs { get; set; }
     }
 }

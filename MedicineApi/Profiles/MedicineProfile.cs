@@ -9,7 +9,8 @@ namespace MedicineApi.Profiles
         public MedicineProfile()
         {
             // Models
-            
+            CreateMap<DataAccess.Dtos.Day, DayOfWeek[]>()
+                .ConvertUsing(new BoolConvertToDayOfWeek());
 
             // Dto
             CreateMap<Dosage, DataAccess.Dtos.Dosage>()
@@ -62,6 +63,29 @@ namespace MedicineApi.Profiles
                 }
 
                 return dat;
+            }
+        }
+
+        private class BoolConvertToDayOfWeek : ITypeConverter<DataAccess.Dtos.Day, DayOfWeek[]>
+        {
+            public DayOfWeek[] Convert(DataAccess.Dtos.Day source, DayOfWeek[] destination, ResolutionContext context)
+            {
+                DayOfWeek[] days = new DayOfWeek[7];
+                if (source.Sunday == true)
+                    days[0] = DayOfWeek.Sunday;
+                if (source.Monday == true)
+                    days[1] = DayOfWeek.Monday;
+                if (source.Tuesday == true)
+                    days[2] = DayOfWeek.Tuesday;
+                if (source.Wednesday == true)
+                    days[3] = DayOfWeek.Wednesday;
+                if (source.Thursday == true)
+                    days[4] = DayOfWeek.Thursday;
+                if (source.Friday == true)
+                    days[5] = DayOfWeek.Friday;
+                if (source.Saturday == true)
+                    days[6] = DayOfWeek.Saturday;
+                return days;
             }
         }
     }

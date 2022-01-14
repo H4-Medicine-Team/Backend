@@ -25,15 +25,47 @@ namespace UnitTest.Managers
         }
 
         [Fact]
+        public async void ThrowArgumentOutOfRangeException_WhenUserIdIsoutOfRange_GetLatesReminderById()
+        {
+            // Arrange
+            IDosageManager manager = GetFakeManager();
+            int userid = -1;
+
+            // Act
+            Func<Task> func = async () => await manager.GetLatesReminderById(userid);
+
+            // Assert
+            await Assert.ThrowsAnyAsync<ArgumentOutOfRangeException>(func);
+        }
+
+        [Fact]
+        public async void ThrowArgumentOutOfRangeException_WhenUserIdIsoutOfRange_InsertReminderAsync()
+        {
+            // Arrange
+            IDosageManager manager = GetFakeManager();
+            int drugId = -10;
+            Dosage dosage = new Dosage();
+            int userid = -1;
+
+            // Act
+            Func<Task> func = async () => await manager.InsertReminderAsync(drugId, dosage, userid);
+
+            // Assert
+            await Assert.ThrowsAnyAsync<ArgumentOutOfRangeException>(func);
+        }
+
+
+        [Fact]
         public async void ThrowArgumentOutOfRangeException_WhenDrugIdIsOutOfRange_InsertReminderAsync()
         {
             // Arrange
             IDosageManager manager = GetFakeManager();
             int drugId = -10;
             Dosage dosage = new Dosage();
+            int userid = 1;
 
             // Act
-            Func<Task> func = async () => await manager.InsertReminderAsync(drugId,dosage);
+            Func<Task> func = async () => await manager.InsertReminderAsync(drugId,dosage,userid);
 
             // Assert
             await Assert.ThrowsAnyAsync<ArgumentOutOfRangeException>(func);
@@ -46,9 +78,10 @@ namespace UnitTest.Managers
             IDosageManager manager = GetFakeManager();
             int drugId = 3;
             Dosage dosage = null;
+            int userid = 1;
 
             // Act
-            Func<Task> func = async () => await manager.InsertReminderAsync(drugId,dosage);
+            Func<Task> func = async () => await manager.InsertReminderAsync(drugId,dosage,userid);
 
             // Assert
             await Assert.ThrowsAnyAsync<ArgumentNullException>(func);
