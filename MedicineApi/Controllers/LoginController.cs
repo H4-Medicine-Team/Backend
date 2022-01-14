@@ -31,21 +31,21 @@ namespace MedicineApi.Controllers
         /// </summary>
         /// <param name="cprNumber">The users cpr numbers</param>
         /// <returns>The medicinecard specified by the cpr number</returns>
-        [HttpGet("Login")]
+        [HttpPost("Login")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<string>> Login(string username, string password)
+        public async Task<ActionResult<string>> Login(UserLoginInfo userInfo)
         {
             //checking if username and password is not null or empty
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(userInfo.Username) || string.IsNullOrEmpty(userInfo.ProviderKey))
                 return BadRequest("Username or Password is not valid");
 
             try
             {
                 //logging the user  in
-                if (await _userLoginManager.LoginAsync(username, password))
+                if (await _userLoginManager.LoginAsync(userInfo.Username, userInfo.ProviderKey))
                 {
                     //Checking the user
-                    var user = await _userLoginManager.GetUserByIDAsync(username);
+                    var user = await _userLoginManager.GetUserByIDAsync(userInfo.Username);
                     //creating a token 
                     await _userLoginManager.GenerateTokenAsync(user);
                     //Validating if the generated token is ok
@@ -130,7 +130,7 @@ namespace MedicineApi.Controllers
             }
         }
 
-        [HttpGet("setrole")]
+        [HttpPost("setrole")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<bool>> SetRole(string userID, Role role)
         {
