@@ -60,12 +60,14 @@ namespace MedicineApi.Managers
             }
             return dosages;
         }
+
+        /// <summary>
+        /// Returnes the newst reminder from all the reminders.
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <returns></returns>
         private Dosage GetNewestReminder(int userid)
         {
-            if (true)
-            {
-
-            }
             Dosage nextDosage = new();
             List<Dosage> dosages = GetAllDosagesById(userid);
             DateTime now = DateTime.Now;

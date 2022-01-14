@@ -115,11 +115,6 @@ namespace MedicineApi.Controllers
             }
         }
 
-
-        // TODO: Needs specific catch
-        // TODO: Check for userid value
-        // TODO: Needs unit test
-
         /// <summary>
         /// Inserts the dosage reminder object into the database.
         /// </summary>
@@ -141,6 +136,16 @@ namespace MedicineApi.Controllers
             {
                 await _dosageManager.InsertReminderAsync(drugId, dosage, userid);
                 return Ok();
+            }
+            catch (ArgumentNullException e)
+            {
+                _logger.LogError("The Object was null " + e.Message);
+                return Problem(e.Message, e.Source, 500, e.InnerException.HResult.ToString());
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                _logger.LogError("Value was out of range " + e.Message);
+                return Problem(e.Message, e.Source, 500, e.InnerException.HResult.ToString());
             }
             catch (Exception e)
             {
