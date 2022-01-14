@@ -1,4 +1,6 @@
+using MedicineApi.Data.Interfaces;
 using MedicineApi.Managers;
+using MedicineApi.Models.UserLoginModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,7 +31,7 @@ namespace MedicineApi
         {
             // Managers
             services.AddScoped<IMedicineCardManager, FmkMedicineCardManagerMock>();
-
+            services.AddScoped<IUserManager<UserLoginInfo>, UserManager<UserLoginInfo>>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

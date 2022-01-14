@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MedicineApi.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,23 +9,34 @@ namespace MedicineApi.Models.UserLoginModels
     public class UserLoginInfo
     {
         /// <summary>
-        ///The provider associated with this login information.
+        ///The username associated with this login information.
         /// </summary>
-        public string LoginProvider { get; private set; }
+        public string Username { get; private set; }
         /// <summary>
-        /// The unique identifier for this user provided by the login provider.
+        /// The unique key/pass for login
         /// </summary>
         public string ProviderKey { get; private set; }
         /// <summary>
-        /// The display name for this user provided by the login provider.
+        /// The Token for user provided by the UserManager.
         /// </summary>
-        public string DisplayName { get; private set; }
-
-        public UserLoginInfo(string loginProvider, string providerKey, string displayName)
+        public string Token { get;  set; }
+        /// <summary>
+        /// Get and setter for the user role 
+        /// </summary>
+        public Role Role { get; set; }
+        /// <summary>
+        /// Constructor for UserLoginInformation
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="providerKey"></param>
+        /// <param name="token"></param>
+        /// <param name="role"></param>
+        public UserLoginInfo(string username, string providerKey, string token, Role role)
         {
-            LoginProvider = loginProvider;
+            Username = username;
             ProviderKey = providerKey;
-            DisplayName = displayName;
+            Token = token;
+            Role = role;
         }
     }
 }
