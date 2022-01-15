@@ -85,6 +85,7 @@ namespace MedicineApi.Controllers
                 return Problem(e.Message);
             }
         }
+       
 
         // working dli: 4810
         /// <summary>
@@ -107,6 +108,32 @@ namespace MedicineApi.Controllers
             catch (Exception e)
             {
                 _logger.LogError("Bad request for GetMedicineByDli " + e.ToString());
+
+                // Problem is code 500
+                return Problem(e.Message);
+            }
+        }
+        // working dli: 4810
+        /// <summary>
+        /// Finds medicine that matches with provided <paramref name="dliID"/>
+        /// <br>Dli is a internal identifier used in medicine.dk</br>
+        /// </summary>
+        /// <returns>Returns a list of information about the medicin and its identifier</returns>
+        [HttpGet("getmedicinedrugbyidentifier")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<GetMedicineWithIdDTO>> GetMedicineDrugByIdentifier(string dliID)
+        {
+            if (string.IsNullOrEmpty(dliID))
+                return BadRequest("Drug id is required");
+
+            try
+            {
+                return Ok(await _medicineDkManager.GetMedicineDrugByIdentifier(dliID));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Bad request for GetMedicineDrugByIdentifier " + e.ToString());
 
                 // Problem is code 500
                 return Problem(e.Message);

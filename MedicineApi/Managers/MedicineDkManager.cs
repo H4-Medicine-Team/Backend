@@ -36,6 +36,23 @@ namespace MedicineApi.Managers
         }
 
         /// <inheritdoc />
+        public async Task<GetMedicineWithIdDTO> GetMedicineDrugByIdentifier(string dli)
+        {
+            if (string.IsNullOrEmpty(dli))
+                throw new ArgumentException("Drug id is null or empty");
+
+            string getRes = await _caller.GetMedicineByIdentifier(dli);
+
+            GetResult getResult = JsonSerializer.Deserialize<GetResult>(getRes);
+
+            GetMedicineWithIdDTO getMedicineWithIdDTO = new GetMedicineWithIdDTO();
+            getMedicineWithIdDTO.Identifier = dli;
+            getMedicineWithIdDTO.GetMedicineDTOs = _converter.ConvertGetResultToDtos(getResult);
+
+            return getMedicineWithIdDTO;
+        }
+
+        /// <inheritdoc />
         public async Task<List<GetMedicineDTO>> GetMedicineByDrugId(string drugId)
         {
             if (string.IsNullOrEmpty(drugId))
@@ -47,6 +64,7 @@ namespace MedicineApi.Managers
 
             return _converter.ConvertGetResultToDtos(getResult);
         }
+       
 
         /// <inheritdoc />
         public async Task<List<GetMedicineDTO>> GetMedicineByPackageNumberId(string packageId)

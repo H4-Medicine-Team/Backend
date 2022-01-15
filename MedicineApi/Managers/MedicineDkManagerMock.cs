@@ -67,6 +67,30 @@ namespace MedicineApi.Managers
         }
 
         /// <inheritdoc />
+        public async Task<GetMedicineWithIdDTO> GetMedicineDrugByIdentifier(string dli)
+        {
+            if (string.IsNullOrEmpty(dli))
+                throw new ArgumentException("Dli is null or empty");
+
+            GetResult getResult = new GetResult();
+            getResult.FormattedTextFieldStructures = new GetMedicine[1];
+
+            getResult.FormattedTextFieldStructures[0] = new GetMedicine
+            {
+                HtmlFragment = new string[] { },
+                Id = "1235",
+                ShowTitle = "false",
+                SpecialAttributes = new SpecialAtribute[] { new SpecialAtribute() { Name = "key", Value = "123" } },
+                Title = "Paracetamol"
+            };
+
+            GetMedicineWithIdDTO getMedicineWithIdDTO = new GetMedicineWithIdDTO();
+            getMedicineWithIdDTO.Identifier = dli;
+            getMedicineWithIdDTO.GetMedicineDTOs = _converter.ConvertGetResultToDtos(getResult);
+
+            return getMedicineWithIdDTO;
+        }
+        /// <inheritdoc />
         public async Task<List<GetMedicineDTO>> GetMedicineByPackageNumberId(string packageId)
         {
             if (string.IsNullOrEmpty(packageId))
