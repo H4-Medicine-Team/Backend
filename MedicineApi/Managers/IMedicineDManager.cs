@@ -8,7 +8,7 @@ using MedicineApi.Models.MedicineDk.Dtos;
 
 namespace MedicineApi.Managers
 {
-    public interface IMedicineDkManager : IGetMedication<List<GetMedicineDTO>>, ISearchMedication<List<SearchMedicineDTO>>, IGetMedicationWithId<GetMedicineWithIdDTO>
+    public interface IMedicineDkManager : IGetMedication<List<GetMedicineDTO>>, ISearchMedication<List<SearchMedicineDTO>>, IGetMedicationWithId<GetMedicineWithId>
     {
         // Add Scoped does not support a generic interface
     }

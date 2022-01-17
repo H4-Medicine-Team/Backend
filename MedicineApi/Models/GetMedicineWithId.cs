@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MedicineApi.Models.MedicineDk.Dtos
 {
-    public class GetMedicineWithIdDTO
+    public class GetMedicineWithId
     {
         /// <summary>
         /// The unique id which identifies a drug.

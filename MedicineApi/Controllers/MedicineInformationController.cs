@@ -122,7 +122,7 @@ namespace MedicineApi.Controllers
         [HttpGet("getmedicinedrugbyidentifier")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<GetMedicineWithIdDTO>> GetMedicineDrugByIdentifier(string dliID)
+        public async Task<ActionResult<GetMedicineWithId>> GetMedicineDrugByIdentifier(string dliID)
         {
             if (string.IsNullOrEmpty(dliID))
                 return BadRequest("Drug id is required");

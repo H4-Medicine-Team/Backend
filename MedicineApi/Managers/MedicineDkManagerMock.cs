@@ -67,7 +67,7 @@ namespace MedicineApi.Managers
         }
 
         /// <inheritdoc />
-        public async Task<GetMedicineWithIdDTO> GetMedicineDrugByIdentifier(string dli)
+        public async Task<GetMedicineWithId> GetMedicineDrugByIdentifier(string dli)
         {
             if (string.IsNullOrEmpty(dli))
                 throw new ArgumentException("Dli is null or empty");
@@ -84,7 +84,7 @@ namespace MedicineApi.Managers
                 Title = "Paracetamol"
             };
 
-            GetMedicineWithIdDTO getMedicineWithIdDTO = new GetMedicineWithIdDTO();
+            GetMedicineWithId getMedicineWithIdDTO = new GetMedicineWithId();
             getMedicineWithIdDTO.Identifier = dli;
             getMedicineWithIdDTO.GetMedicineDTOs = _converter.ConvertGetResultToDtos(getResult);
 
