@@ -1,6 +1,8 @@
+using MedicineApi.Data.Interfaces;
 using AutoMapper;
 using DataAccess.Dtos;
 using MedicineApi.Managers;
+using MedicineApi.Models.UserLoginModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -53,13 +55,12 @@ namespace MedicineApi
 
             // Managers
             services.AddScoped<IMedicineCardManager, FmkMedicineCardManagerMock>();
+            services.AddScoped<IUserManager<UserLoginInfo>, UserManager<UserLoginInfo>>();
             services.AddScoped<IDosageManager, DosageManager>();
             services.AddScoped<IMedicineDkManager, MedicineDkManager>();
-          
             // Intergration service
             services.AddScoped<MedicineDkCaller>();
             services.AddScoped<MedicineDkDTOConverter>();
-
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
