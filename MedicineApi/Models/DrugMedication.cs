@@ -7,7 +7,7 @@ namespace MedicineApi.Models
         /// <summary>
         /// The list of dosages for this medication.
         /// </summary>
-        public List<Dosage> Dosage { get; private set; }
+        public List<Dosage> Dosages { get; private set; }
 
         /// <summary>
         /// The description of the drug.
@@ -26,7 +26,7 @@ namespace MedicineApi.Models
 
         public DrugMedication(List<Dosage> dosage, Drug drug, BeginEndDate beginEndDate, string identifier)
         {
-            Dosage = dosage;
+            Dosages = dosage;
             Drug = drug;
             BeginEndDate = beginEndDate;
             Identifier = identifier;
