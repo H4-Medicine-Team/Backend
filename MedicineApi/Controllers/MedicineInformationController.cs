@@ -122,18 +122,18 @@ namespace MedicineApi.Controllers
         [HttpGet("getmedicinedrugbyidentifier")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<GetMedicineWithId>> GetMedicineDrugByIdentifier(string dliID)
+        public async Task<ActionResult<MedicineIdentification>> GetMedicineDrugByIdentifier(string dliID)
         {
             if (string.IsNullOrEmpty(dliID))
                 return BadRequest("Drug id is required");
 
             try
             {
-                return Ok(await _medicineDkManager.GetMedicineDrugByIdentifier(dliID));
+                return Ok(await _medicineDkManager.GetMedicineIdentificationWithIdentifier(dliID));
             }
             catch (Exception e)
             {
-                _logger.LogError("Bad request for GetMedicineDrugByIdentifier " + e.ToString());
+                _logger.LogError("Bad request for GetMedicineIdentificationWithIdentifier " + e.ToString());
 
                 // Problem is code 500
                 return Problem(e.Message);

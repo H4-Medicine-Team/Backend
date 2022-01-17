@@ -36,7 +36,7 @@ namespace MedicineApi.Managers
         }
 
         /// <inheritdoc />
-        public async Task<GetMedicineWithId> GetMedicineDrugByIdentifier(string dli)
+        public async Task<MedicineIdentification> GetMedicineIdentificationWithIdentifier(string dli)
         {
             if (string.IsNullOrEmpty(dli))
                 throw new ArgumentException("Drug id is null or empty");
@@ -45,7 +45,7 @@ namespace MedicineApi.Managers
 
             GetResult getResult = JsonSerializer.Deserialize<GetResult>(getRes);
 
-            GetMedicineWithId getMedicineWithIdDTO = new GetMedicineWithId();
+            MedicineIdentification getMedicineWithIdDTO = new MedicineIdentification();
             getMedicineWithIdDTO.Identifier = dli;
             getMedicineWithIdDTO.GetMedicineDTOs = _converter.ConvertGetResultToDtos(getResult);
 

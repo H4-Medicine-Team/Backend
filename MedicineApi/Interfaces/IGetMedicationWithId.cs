@@ -10,7 +10,7 @@ namespace MedicineApi.Interfaces
         /// <summary>
         /// Gets medicine with drug id
         /// </summary>
-        public Task<T> GetMedicineDrugByIdentifier(string drugId);
+        public Task<T> GetMedicineIdentificationWithIdentifier(string drugId);
 
     }
 }
