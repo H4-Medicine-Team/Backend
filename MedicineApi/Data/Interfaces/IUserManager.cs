@@ -12,16 +12,19 @@ namespace MedicineApi.Data.Interfaces
     public interface IUserManager<TUser> where TUser : class
     {
         /// <summary>
-        ///  Loggin user in returning boolean
+        ///  Log in user & return boolean
         /// </summary>
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public Task<bool> LoginAsync(string username, string password);
+        /// <summary>
+        /// Log in user with token returning boolean
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public Task<bool> LoginWithTokenAsync(string token);
-
-
         /// <summary>
         ///  Setting valid token for login.
         /// </summary>
@@ -29,8 +32,6 @@ namespace MedicineApi.Data.Interfaces
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public Task GenerateTokenAsync(TUser user);
-
-
         /// <summary>
         ///  Checks if token is still valid .
         /// </summary>
@@ -52,7 +53,6 @@ namespace MedicineApi.Data.Interfaces
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public Task<Role> GetRoleAsync(string userID);
-
         /// <summary>
         /// get user by ID
         /// </summary>
@@ -65,7 +65,5 @@ namespace MedicineApi.Data.Interfaces
         /// <param name="token"></param>
         /// <returns></returns>
         public Task<TUser> GetUserWithTokenAsync(string token);
-      
-
     }
 }

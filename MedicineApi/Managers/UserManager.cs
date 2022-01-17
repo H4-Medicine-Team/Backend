@@ -15,9 +15,9 @@ namespace MedicineApi.Managers
 {
     public class UserManager<TUser> : IUserManager<UserLoginInfo>
     {
-
-        //creating a list of userlogins for mocking
-
+        /// <summary>
+        /// creating a list of userlogins for mocking
+        /// </summary>
         public UserManager()
         {
             //Mock Data
@@ -35,7 +35,6 @@ namespace MedicineApi.Managers
             else
                 throw new Exception("No user found");
         }
-
         /// <inheritdoc />
         public Task<bool> SetRoleAsync(UserLoginInfo user, Role role)
         {
@@ -52,7 +51,6 @@ namespace MedicineApi.Managers
                 throw new Exception($"SetRole : {ex.Message}");
             }
         }
-
         /// <inheritdoc />
         public Task GenerateTokenAsync(UserLoginInfo user)
         {
@@ -76,7 +74,6 @@ namespace MedicineApi.Managers
                 throw new Exception($"Generatetoken : {ex.Message}");
             }
         }
-
         /// <inheritdoc />
         public Task<UserLoginInfo> GetUserByIDAsync(string userID)
         {
@@ -95,7 +92,6 @@ namespace MedicineApi.Managers
             //throw execption if not found
             throw new Exception("User not found");
         }
-
         /// <inheritdoc />
         public Task<bool> ValidateTokenAsync(UserLoginInfo login)
         {
@@ -133,7 +129,7 @@ namespace MedicineApi.Managers
             //return false if not found
             return Task.Run(() => { return false; });
         }
-
+        /// <inheritdoc />
         public Task<bool> LoginWithTokenAsync(string token)
         {
             //Checking if user exsist by given username & password then return true

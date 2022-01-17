@@ -11,56 +11,54 @@ using System.Threading.Tasks;
 
 namespace MedicineApi.Controllers
 {
-    [Route("api/user")]
+    [Route("api/[controller]")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ApiController]
-    public class LoginController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly IUserManager<UserLoginInfo> _userLoginManager;
         private readonly ILogger _logger;
-        public LoginController(IUserManager<UserLoginInfo> userManager, ILogger<LoginController> logger)
-        {
-            _userLoginManager = userManager ?? throw new ArgumentNullException($"Login Manager was not injected {typeof(LoginController)}");
-            _logger = logger ?? throw new ArgumentNullException($"Logger was not injected {typeof(LoginController)}");
-
-        }
-
         /// <summary>
-        /// Retrieves a medicinecard for the given user.
+        /// construct manager and logger
         /// </summary>
-        /// <param name="cprNumber">The users cpr numbers</param>
-        /// <returns>The medicinecard specified by the cpr number</returns>
-        [HttpPost("Login")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<string>> Login(UserLoginInfo userInfo)
+        /// <param name="userManager"></param>
+        /// <param name="logger"></param>
+        public UserController(IUserManager<UserLoginInfo> userManager, ILogger<UserController> logger)
         {
-            if(userInfo == null)
+            _userLoginManager = userManager ?? throw new ArgumentNullException($"Login Manager was not injected {typeof(UserController)}");
+            _logger = logger ?? throw new ArgumentNullException($"Logger was not injected {typeof(UserController)}");
+        }
+        /// <summary>
+        /// Log the user in
+        /// </summary>
+        /// <param name="userInfo"></param>
+        /// <returns></returns>
+        [HttpPost("login")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<string>> LoginAsync(UserLoginInfo userInfo)
+        {
+            if (userInfo == null)
                 return BadRequest("Username or Password is not valid");
             //checking if username and password is not null or empty
             if (string.IsNullOrEmpty(userInfo.Username) || string.IsNullOrEmpty(userInfo.ProviderKey))
                 return BadRequest("Username or Password is not valid");
-
             try
             {
-                //logging the user  in
-                if (await _userLoginManager.LoginAsync(userInfo.Username, userInfo.ProviderKey))
+                //trying to login the user in, return BadRequest if wrong credentials
+                if (!await _userLoginManager.LoginAsync(userInfo.Username, userInfo.ProviderKey))
+                    return BadRequest();
+                else
                 {
                     //Checking the user
                     var user = await _userLoginManager.GetUserByIDAsync(userInfo.Username);
                     //creating a token 
                     await _userLoginManager.GenerateTokenAsync(user);
-                    //Validating if the generated token is ok
+                    //Validating if the generated token is ok then returning the token
                     if (await _userLoginManager.ValidateTokenAsync(user))
-                        //returning the token
                         return user.Token;
                     //if token not valid return unauthorized
                     else return Unauthorized();
-                }
-                else
-                {
-                    //return not forund
-                    return BadRequest();
                 }
             }
             catch (ArgumentException e)
@@ -74,15 +72,14 @@ namespace MedicineApi.Controllers
                 return Problem(e.Message, e.Source, 500, e.InnerException.HResult.ToString());
             }
         }
-
         /// <summary>
-        /// Retrieves a medicinecard for the given user.
+        /// Log the user in by token
         /// </summary>
-        /// <param name="cprNumber">The users cpr numbers</param>
-        /// <returns>The medicinecard specified by the cpr number</returns>
-        [HttpPost("Login")]
+        /// <param name="userInfo"></param>
+        /// <returns></returns>
+        [HttpPost("tokenlogin")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<string>> LoginWithToken(UserLoginInfo userInfo)
+        public async Task<ActionResult<string>> LoginWithTokenAsync(UserLoginInfo userInfo)
         {
             //checking if username and password is not null or empty
             if (string.IsNullOrEmpty(userInfo.Token))
@@ -121,12 +118,14 @@ namespace MedicineApi.Controllers
                 return Problem(e.Message, e.Source, 500, e.InnerException.HResult.ToString());
             }
         }
-
-
-
-        [HttpGet("IsTokenValid")]
+        /// <summary>
+        /// validate if current token is valid
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        [HttpGet("validtoken")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<bool>> ValidateToken(string userID)
+        public async Task<ActionResult<bool>> ValidateTokenAsync(string userID)
         {
             try
             {
@@ -143,10 +142,14 @@ namespace MedicineApi.Controllers
                 return Unauthorized();
             }
         }
-
+        /// <summary>
+        /// getting the user role
+        /// </summary>
+        /// <param name="UserID"></param>
+        /// <returns></returns>
         [HttpGet("getrole")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Role>> GetRole(string UserID)
+        public async Task<ActionResult<Role>> GetRoleAsync(string UserID)
         {
             try
             {
@@ -174,10 +177,15 @@ namespace MedicineApi.Controllers
                 return Problem(e.Message, e.Source, 500, e.InnerException.HResult.ToString());
             }
         }
-
+        /// <summary>
+        /// sets the user role
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="role"></param>
+        /// <returns></returns>
         [HttpPost("setrole")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<bool>> SetRole(string userID, Role role)
+        public async Task<ActionResult<bool>> SetRoleAsync(string userID, Role role)
         {
             try
             {
