@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace MedicineApi.Controllers
 {
+    /// <summary>
+    /// Controller for the user login, roles & tokens
+    /// </summary>
     [Route("api/[controller]")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

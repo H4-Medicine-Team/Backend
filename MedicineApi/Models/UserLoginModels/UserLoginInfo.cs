@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MedicineApi.Models.UserLoginModels
 {
+    /// <summary>
+    /// Class for login informations
+    /// </summary>
     public class UserLoginInfo
     {
         /// <summary>

@@ -7,15 +7,15 @@ namespace MedicineApi.Data.Enums
 {
     /// <summary>
     /// Return the role
-    /// </summary>
+    /// </summary>s
     public enum Role
     {
         /// <summary>
-        /// this is standard user
+        /// Value for standard user
         /// </summary>
         User,
         /// <summary>
-        ///  this is guardians for the user
+        ///  Value for guardians
         /// </summary>
         Guardian
     }

@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace MedicineApi.Data.Interfaces
 {
+    /// <summary>
+    /// Manager for the login role and tokens, generated where TUser Class.
+    /// </summary>
+    /// <typeparam name="TUser"></typeparam>
     public interface IUserManager<TUser> where TUser : class
     {
         /// <summary>
