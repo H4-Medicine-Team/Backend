@@ -38,5 +38,16 @@ namespace MedicineApi.Models.UserLoginModels
             Token = token;
             Role = role;
         }
+
+        public UserLoginInfo(string username, string password)
+        {
+            this.Username = username;
+            this.ProviderKey = password;
+        }
+
+        public UserLoginInfo(string token)
+        {
+            this.Token = token;
+        }
     }
 }

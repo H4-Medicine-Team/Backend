@@ -19,6 +19,7 @@ namespace MedicineApi.Data.Interfaces
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public Task<bool> LoginAsync(string username, string password);
+        public Task<bool> LoginWithTokenAsync(string token);
 
 
         /// <summary>

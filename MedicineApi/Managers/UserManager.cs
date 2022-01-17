@@ -134,7 +134,14 @@ namespace MedicineApi.Managers
             return Task.Run(() => { return false; });
         }
 
-
+        public Task<bool> LoginWithTokenAsync(string token)
+        {
+            //Checking if user exsist by given username & password then return true
+            if (UserLoginInfos<UserLoginInfo>.users.FirstOrDefault(o => o.Token == token) is UserLoginInfo tempUser && tempUser != null)
+                return Task.Run(() => { return true; });
+            //return false if not found
+            return Task.Run(() => { return false; });
+        }
     }
 
 }

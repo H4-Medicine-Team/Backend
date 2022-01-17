@@ -35,6 +35,8 @@ namespace MedicineApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<string>> Login(UserLoginInfo userInfo)
         {
+            if(userInfo == null)
+                return BadRequest("Username or Password is not valid");
             //checking if username and password is not null or empty
             if (string.IsNullOrEmpty(userInfo.Username) || string.IsNullOrEmpty(userInfo.ProviderKey))
                 return BadRequest("Username or Password is not valid");
@@ -46,6 +48,53 @@ namespace MedicineApi.Controllers
                 {
                     //Checking the user
                     var user = await _userLoginManager.GetUserByIDAsync(userInfo.Username);
+                    //creating a token 
+                    await _userLoginManager.GenerateTokenAsync(user);
+                    //Validating if the generated token is ok
+                    if (await _userLoginManager.ValidateTokenAsync(user))
+                        //returning the token
+                        return user.Token;
+                    //if token not valid return unauthorized
+                    else return Unauthorized();
+                }
+                else
+                {
+                    //return not forund
+                    return BadRequest();
+                }
+            }
+            catch (ArgumentException e)
+            {
+                _logger.LogError("Bad request for login " + e.Message);
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Could not perform request login" + e.Message);
+                return Problem(e.Message, e.Source, 500, e.InnerException.HResult.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Retrieves a medicinecard for the given user.
+        /// </summary>
+        /// <param name="cprNumber">The users cpr numbers</param>
+        /// <returns>The medicinecard specified by the cpr number</returns>
+        [HttpPost("Login")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<string>> LoginWithToken(UserLoginInfo userInfo)
+        {
+            //checking if username and password is not null or empty
+            if (string.IsNullOrEmpty(userInfo.Token))
+                return BadRequest();
+
+            try
+            {
+                //logging the user  in
+                if (await _userLoginManager.LoginWithTokenAsync(userInfo.Token))
+                {
+                    //Checking the user
+                    var user = await _userLoginManager.GetUserWithTokenAsync(userInfo.Token);
                     //creating a token 
                     await _userLoginManager.GenerateTokenAsync(user);
                     //Validating if the generated token is ok
@@ -73,6 +122,8 @@ namespace MedicineApi.Controllers
             }
         }
 
+
+
         [HttpGet("IsTokenValid")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<bool>> ValidateToken(string userID)
@@ -87,15 +138,9 @@ namespace MedicineApi.Controllers
                     return true;
                 else return Unauthorized();
             }
-            catch (ArgumentException e)
+            catch (Exception)
             {
-                _logger.LogError("Bad request for login " + e.Message);
-                return BadRequest(e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError("Could not perform request login" + e.Message);
-                return Problem(e.Message, e.Source, 500, e.InnerException.HResult.ToString());
+                return Unauthorized();
             }
         }
 
