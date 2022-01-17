@@ -19,14 +19,12 @@ namespace MedicineApi.Controllers
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ApiController]
     public class UserController : ControllerBase
-    {
+    { 
         private readonly IUserManager<UserLoginInfo> _userLoginManager;
         private readonly ILogger _logger;
         /// <summary>
         /// construct manager and logger
         /// </summary>
-        /// <param name="userManager"></param>
-        /// <param name="logger"></param>
         public UserController(IUserManager<UserLoginInfo> userManager, ILogger<UserController> logger)
         {
             _userLoginManager = userManager ?? throw new ArgumentNullException($"Login Manager was not injected {typeof(UserController)}");
@@ -35,8 +33,6 @@ namespace MedicineApi.Controllers
         /// <summary>
         /// Log the user in
         /// </summary>
-        /// <param name="userInfo"></param>
-        /// <returns></returns>
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<string>> LoginAsync(UserLoginInfo userInfo)
@@ -78,8 +74,6 @@ namespace MedicineApi.Controllers
         /// <summary>
         /// Log the user in by token
         /// </summary>
-        /// <param name="userInfo"></param>
-        /// <returns></returns>
         [HttpPost("tokenlogin")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<string>> LoginWithTokenAsync(UserLoginInfo userInfo)
@@ -148,8 +142,6 @@ namespace MedicineApi.Controllers
         /// <summary>
         /// getting the user role
         /// </summary>
-        /// <param name="UserID"></param>
-        /// <returns></returns>
         [HttpGet("getrole")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Role>> GetRoleAsync(string UserID)
@@ -183,9 +175,6 @@ namespace MedicineApi.Controllers
         /// <summary>
         /// sets the user role
         /// </summary>
-        /// <param name="userID"></param>
-        /// <param name="role"></param>
-        /// <returns></returns>
         [HttpPost("setrole")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<bool>> SetRoleAsync(string userID, Role role)
