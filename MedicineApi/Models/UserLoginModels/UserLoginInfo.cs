@@ -18,11 +18,11 @@ namespace MedicineApi.Models.UserLoginModels
         /// <summary>
         /// The unique key/pass for login
         /// </summary>
-        public string ProviderKey { get; private set; }
+        public string Password { get; private set; }
         /// <summary>
         /// The Token for user provided by the UserManager.
         /// </summary>
-        public string Token { get;  set; }
+        public Token  UserToken { get;  set; }
         /// <summary>
         /// Get and setter for the user role 
         /// </summary>
@@ -30,23 +30,23 @@ namespace MedicineApi.Models.UserLoginModels
         /// <summary>
         /// Constructor for UserLoginInformation
         /// </summary>
-        public UserLoginInfo(string username, string providerKey, string token, Role role)
+        public UserLoginInfo(UserLogin user, Token token, Role role)
         {
-            Username = username;
-            ProviderKey = providerKey;
-            Token = token;
+            Username = user.Username;
+            Password = user.Password;
+            UserToken = token;
             Role = role;
         }
 
-        public UserLoginInfo(string username, string password)
+        public UserLoginInfo(UserLogin user)
         {
-            this.Username = username;
-            this.ProviderKey = password;
+            this.Username = user.Username;
+            this.Password = user.Password;
         }
 
-        public UserLoginInfo(string token)
+        public UserLoginInfo(Token token)
         {
-            this.Token = token;
+            this.UserToken = token;
         }
     }
 }
