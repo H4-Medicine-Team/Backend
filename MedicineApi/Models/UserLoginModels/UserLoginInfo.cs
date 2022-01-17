@@ -30,10 +30,6 @@ namespace MedicineApi.Models.UserLoginModels
         /// <summary>
         /// Constructor for UserLoginInformation
         /// </summary>
-        /// <param name="username"></param>
-        /// <param name="providerKey"></param>
-        /// <param name="token"></param>
-        /// <param name="role"></param>
         public UserLoginInfo(string username, string providerKey, string token, Role role)
         {
             Username = username;

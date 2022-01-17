@@ -118,8 +118,6 @@ namespace MedicineApi.Controllers
         /// <summary>
         /// validate if current token is valid
         /// </summary>
-        /// <param name="userID"></param>
-        /// <returns></returns>
         [HttpGet("validtoken")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<bool>> ValidateTokenAsync(string userID)
