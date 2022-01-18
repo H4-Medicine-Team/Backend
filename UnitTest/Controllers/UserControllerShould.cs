@@ -64,7 +64,7 @@ namespace UnitTest.Controllers
             UserController controller = GetFakeController();
 
             // Act
-            ActionResult<string> result = await controller.LoginWithTokenAsync(GetFakeToken());
+            ActionResult<string> result = await controller.LoginWithTokenAsync(new Token(""));
 
 
             // Act && Assert

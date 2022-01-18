@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MedicineApi.Models.UserLoginModels
+﻿namespace MedicineApi.Models.UserLoginModels
 {
     public class UserLogin
     {
@@ -13,7 +8,7 @@ namespace MedicineApi.Models.UserLoginModels
         public string Username
         {
             get;
-            private set;
+            set;
         }
         /// <summary>
         /// Password for the user
@@ -21,11 +16,16 @@ namespace MedicineApi.Models.UserLoginModels
         public string Password
         {
             get;
-            private set;
+            set;
+        }
+
+
+        public UserLogin()
+        {
         }
 
         /// <summary>
-        /// 
+        /// Creates a UserLogin from the given username and password
         /// </summary>
         /// <param name="user">Username for the user</param>
         /// <param name="password">Password for the user</param>

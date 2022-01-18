@@ -25,12 +25,14 @@ namespace MedicineApi.Managers
             //Mock Data
             MockUser.Add(new UserLoginInfo(new UserLogin("12345678910", "key"), new Token("mZaFi4DW2Ujh921niAwzSqKKtgzYsXvR"), Role.User));
         }
+
         /// <inheritdoc />
         public Task<bool> LoginAsync(UserLogin user)
         {
             //Checking if user exsist by given username & password then return true
             if (MockUser.FirstOrDefault(o => o.Username == user.Username && o.Password == user.Password) is UserLoginInfo tempUser && tempUser != null)
                 return Task.Run(() => { return true; });
+
             //return false if not found
             return Task.Run(() => { return false; });
         }
