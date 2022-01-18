@@ -35,7 +35,7 @@ namespace MedicineApi.Controllers
         /// </summary>
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<string>> LoginAsync(UserLogin userInfo)
+        public async Task<ActionResult<Token>> LoginAsync(UserLogin userInfo)
         {
             if (userInfo == null)
                 return BadRequest("Username or Password is not valid");
@@ -55,7 +55,7 @@ namespace MedicineApi.Controllers
                     await _userLoginManager.GenerateTokenAsync(user);
                     //Validating if the generated token is ok then returning the token
                     if (await _userLoginManager.ValidateTokenAsync(user.UserToken))
-                        return user.UserToken.Key;
+                        return user.UserToken;
                     //if token not valid return unauthorized
                     else return Unauthorized();
                 }
