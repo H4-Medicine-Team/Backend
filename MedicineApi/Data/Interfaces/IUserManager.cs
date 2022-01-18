@@ -17,11 +17,11 @@ namespace MedicineApi.Data.Interfaces
         /// <summary>
         ///  Log in user & return boolean
         /// </summary>
-        public Task<bool> LoginAsync(string username, string password);
+        public Task<bool> LoginAsync(UserLogin user);
         /// <summary>
         /// Log in user with token returning boolean
         /// </summary>
-        public Task<bool> LoginWithTokenAsync(string token);
+        public Task<bool> LoginWithTokenAsync(Token userToken);
         /// <summary>
         ///  Setting valid token for login.
         /// </summary>
@@ -29,7 +29,7 @@ namespace MedicineApi.Data.Interfaces
         /// <summary>
         ///  Checks if token is still valid .
         /// </summary>
-        public Task<bool> ValidateTokenAsync(TUser user);
+        public Task<bool> ValidateTokenAsync(Token user);
         /// <summary>
         /// Sets the user's role
         /// </summary>
@@ -45,6 +45,6 @@ namespace MedicineApi.Data.Interfaces
         /// <summary>
         /// Get user by token
         /// </summary>
-        public Task<TUser> GetUserWithTokenAsync(string token);
+        public Task<TUser> GetUserWithTokenAsync(Token token);
     }
 }
