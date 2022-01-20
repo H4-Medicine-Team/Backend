@@ -40,13 +40,20 @@ namespace MedicineApi.Managers
             Interval interval = new Interval(DateTime.Now, DateTime.Now.AddDays(2), DateTime.Now.AddMinutes(10), days);
             Dosage dosage = new Dosage(2, AmountType.Pieces, interval);
 
-            Drug drug = new Drug("Minulet", "4810");
             BeginEndDate bed = new BeginEndDate(DateTime.Now, DateTime.Now.AddDays(2));
+            
+            Drug drug = new Drug("Minulet", "4810");
             DrugMedication medication = new DrugMedication(new List<Dosage>() { dosage }, drug, bed, "123123123123");
+
+            Drug drug2 = new Drug("Citalopram \"Mylan\"", "8036");
+            DrugMedication medication2 = new DrugMedication(new List<Dosage>() { dosage }, drug2, bed, "123123123123");
+
+            Drug drug3 = new Drug("Dolol", "1986");
+            DrugMedication medication3 = new DrugMedication(new List<Dosage>() { dosage }, drug3, bed, "123123123123");
 
             Organisation organisation = new Organisation("Apotek", "4352525252", "Apotek@mail.dk", "123451231");
 
-            MedicineCard card = new MedicineCard(patient, new List<DrugMedication>() { medication }, organisation);
+            MedicineCard card = new MedicineCard(patient, new List<DrugMedication>() { medication, medication2, medication3 }, organisation);
 
             return Task.Run(() => { return card; });
         }
